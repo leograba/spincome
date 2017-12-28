@@ -12,10 +12,26 @@ ApplicationWindow {
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
 
-        Page1Form {
+        DashboardPage {
         }
 
-        Page2Form {
+        ExpenseRevenuePage {
+            visible: true
+            ExpenseRevenueTab{
+                visible: false
+            }
+        }
+
+        BudgetPage {
+        }
+
+        InvestmentPage {
+        }
+
+        StatisticsPage{
+        }
+
+        StrategyPage{
         }
     }
 
@@ -24,10 +40,22 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
 
         TabButton {
-            text: qsTr("Page 1")
+            text: qsTr("Dashboard")
         }
         TabButton {
-            text: qsTr("Page 2")
+            text: qsTr("Despesas e receitas")
+        }
+        TabButton {
+            text: qsTr("Orçamento")
+        }
+        TabButton {
+            text: qsTr("Investimentos")
+        }
+        TabButton {
+            text: qsTr("Estatísticas")
+        }
+        TabButton {
+            text: qsTr("Estratégia")
         }
     }
 }

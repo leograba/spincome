@@ -1,9 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Page1Form.ui.qml</file>
-        <file>Page2Form.ui.qml</file>
+        <file>DashboardPage.ui.qml</file>
+        <file>ExpenseRevenuePage.ui.qml</file>
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>BudgetPage.ui.qml</file>
+        <file>InvestmentPage.ui.qml</file>
+        <file>StatisticsPage.ui.qml</file>
+        <file>StrategyPage.ui.qml</file>
+        <file>ExpenseRevenueTab.ui.qml</file>
+        <file>delExpenseRevenuePage.qml</file>
     </qresource>
 </RCC>
