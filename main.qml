@@ -1,5 +1,6 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
+//import "/ExpenseRevenuePage.js" as ExpRev
 
 ApplicationWindow {
     visible: true
@@ -15,12 +16,17 @@ ApplicationWindow {
         DashboardPage {
         }
 
-        ExpenseRevenuePage {
-            visible: true
-            ExpenseRevenueTab{
-                visible: false
-            }
+
+        Loader{
+            id:expRevLoader
+            source: "ExpenseRevenuePg.qml"
         }
+
+
+/*
+        ExpenseRevenuePage {
+        }
+*/
 
         BudgetPage {
         }

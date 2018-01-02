@@ -3,16 +3,48 @@ import QtQuick.Controls 2.3
 import QtQml 2.2
 
 Page {
-    property date currentDate: new Date()
+    id: root
 
     width: 600
     height: 400
+    property alias expRevListView: expRevListView
+
+    property alias monthsGrid: monthsGrid
+    property alias yearSel: yearSel
+    property alias root: root
+    property alias decBt: decBt
+    property alias novBt: novBt
+    property alias octBt: octBt
+    property alias sepBt: sepBt
+    property alias augBt: augBt
+    property alias julBt: julBt
+    property alias junBt: junBt
+    property alias mayBt: mayBt
+    property alias aprBt: aprBt
+    property alias marBt: marBt
+    property alias febBt: febBt
+    property alias janBt: janBt
+    property alias expRevHeader: expRevHeader
+    property alias listOfExpRevs: listOfExpRevs
     spacing: -7
 
+    signal monthButtonClickedSignal(string mth)
+
     header: Label {
+        id: expRevHeader
+        //width: parent.width - 250
         text: qsTr("Despesas e receitas")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
+
+        Button {
+            id: backBtn
+            anchors.right: parent.right
+            width: 44
+            height: 55
+            text: qsTr("O")
+            visible: false
+        }
     }
 
     Grid {
@@ -31,8 +63,7 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Janeiro")
-            checkable: false
-            //onClicked: loadExpensesTab("jan", spinBox.value)
+            //onClicked: root.monthBtnClickedSignal("jan")
         }
 
         Button {
@@ -40,7 +71,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Fevereiro")
-            //onClicked: loadExpensesTab("feb", spinBox.value)
         }
 
         Button {
@@ -48,7 +78,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Março")
-            //onClicked: loadExpensesTab("mar", spinBox.value)
         }
 
         Button {
@@ -56,7 +85,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Abril")
-            //onClicked: loadExpensesTab("apr", spinBox.value)
         }
 
         Button {
@@ -64,7 +92,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Maio")
-            //onClicked: loadExpensesTab("may", spinBox.value)
         }
 
         Button {
@@ -72,7 +99,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Junho")
-            //onClicked: loadExpensesTab("jun", spinBox.value)
         }
 
         Button {
@@ -80,7 +106,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Julho")
-            //onClicked: loadExpensesTab("jul", spinBox.value)
         }
 
         Button {
@@ -88,7 +113,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Agosto")
-            //onClicked: loadExpensesTab("aug", spinBox.value)
         }
 
         Button {
@@ -96,7 +120,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Setembro")
-            //onClicked: loadExpensesTab("sep", spinBox.value)
         }
 
         Button {
@@ -104,7 +127,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Outubro")
-            //onClicked: loadExpensesTab("oct", spinBox.value)
         }
 
         Button {
@@ -112,7 +134,6 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Novembro")
-            //onClicked: loadExpensesTab("nov", spinBox.value)
         }
 
         Button {
@@ -120,16 +141,105 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Dezembro")
-            //onClicked: loadExpensesTab("dez", spinBox.value)
         }
     }
 
     SpinBox {
-        id: spinBox
-        x: 54
+        id: yearSel
+        x: 5
         y: 13
         to: 2100
         from: 1980
-        value: 2017
+        //value: currentDate
     }
+
+    ListView {
+        id: expRevListView
+        visible: false
+        anchors.right: monthsGrid.right
+        anchors.bottom: monthsGrid.bottom
+        anchors.top: yearSel.top
+        anchors.left: yearSel.left
+        focus: true
+        highlight: Rectangle {
+            id: rectangle
+            color: "grey"
+        }
+        highlightFollowsCurrentItem: true
+
+        model: ListModel {
+            id: listOfExpRevs
+        }
+
+        delegate: Item {
+            anchors.right: parent.right
+            anchors.left: parent.left
+            height: 35
+            Row {
+                id: row1
+                spacing: 2
+                anchors.right: parent.right
+                anchors.left: parent.left
+                TextField {
+                    id: howMuch
+                    width: parent.width / 5 - parent.spacing
+                    placeholderText: qsTr("valor")
+                    text: value
+                }
+
+                TextField {
+                    id: revOrExp
+                    width: parent.width / 5 - parent.spacing
+                    placeholderText: qsTr("D/R/I/E")
+                    text: exptype
+                }
+
+                TextField {
+                    id: catg
+                    width: parent.width / 5 - parent.spacing
+                    placeholderText: qsTr("categoria")
+                    text: category
+                }
+
+                TextField {
+                    id: descp
+                    width: parent.width / 5 - parent.spacing
+                    placeholderText: qsTr("descrição")
+                    text: description
+                }
+
+                TextField {
+                    id: date
+                    width: parent.width / 5 - parent.spacing
+                    placeholderText: qsTr("DD/MM/AA")
+                    text: datestring
+                }
+            }
+        }
+
+        ScrollBar.vertical: ScrollBar {
+            id: expRevScrollBar
+        }
+    }
+
+    states: [
+        State {
+            name: "MSEL"
+
+            PropertyChanges {
+                target: expRevListView
+                visible: true
+            }
+
+            PropertyChanges {
+                target: yearSel
+                visible: false
+            }
+
+            PropertyChanges {
+                target: monthsGrid
+                visible: false
+            }
+        }
+    ]
 }

@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>DashboardPage.ui.qml</file>
-        <file>ExpenseRevenuePage.ui.qml</file>
+        <file>ExpenseRevenuePg.qml</file>
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>BudgetPage.ui.qml</file>
@@ -10,6 +10,8 @@
         <file>StatisticsPage.ui.qml</file>
         <file>StrategyPage.ui.qml</file>
         <file>ExpenseRevenueTab.ui.qml</file>
-        <file>delExpenseRevenuePage.qml</file>
+        <file>ExpenseRevenuePage.js</file>
+        <file>main.cpp</file>
+        <file>ExpenseRevenuePage.ui.qml</file>
     </qresource>
 </RCC>
