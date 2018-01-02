@@ -132,6 +132,7 @@ function loadDataFromDb(db, yearMonthString){
                                       "datestring": res.rows.item(i).date
                                   })
             }
+            listOfExpRevs.sync() // no need here, but just to remember if ever needed
             expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
             //expRevListView.positionViewAtEnd() // this line would remove animation when going to last index
             //console.log(JSON.stringify(listOfExpRevs))
@@ -145,9 +146,15 @@ function loadDataFromDb(db, yearMonthString){
     })
 }
 
-function appendData(listOfExpRevs){
-    listOfExpRevs.append({"name":"leo", "colorCode":"grey"})
-    listOfExpRevs.append({"name":"leo", "colorCode":"grey"})
-    listOfExpRevs.append({"name":"leo", "colorCode":"grey"})
-    listOfExpRevs.sync()
+function highlightOnClick(index){
+    expRevListView.currentIndex = index
+}
+
+function highlightOnTab(index, isLastCol, reverse){
+    if(isLastCol && !reverse)
+        expRevListView.currentIndex = index + 1
+    else if(isLastCol && reverse)
+        expRevListView.currentIndex = index - 1
+    else
+        expRevListView.currentIndex = index
 }
