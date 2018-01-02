@@ -137,7 +137,7 @@ function loadDataFromDb(db, yearMonthString){
             //console.log(JSON.stringify(listOfExpRevs))
             //console.log(JSON.stringify(expRevListView.count))
             console.log(JSON.stringify(expRevListView.currentIndex))
-            //console.log(JSON.stringify(expRevListView.currentItem))
+            console.log(JSON.stringify(expRevListView.model.get(0).datestring))
         }
         catch(err){
             console.log("Error reading from table exprev: " + err)

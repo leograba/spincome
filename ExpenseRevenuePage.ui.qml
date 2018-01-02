@@ -171,52 +171,7 @@ Page {
             id: listOfExpRevs
         }
 
-        delegate: Item {
-            anchors.right: parent.right
-            anchors.left: parent.left
-            height: 35
-            Row {
-                id: row1
-                spacing: 2
-                anchors.right: parent.right
-                anchors.left: parent.left
-                TextField {
-                    id: howMuch
-                    width: parent.width / 5 - parent.spacing
-                    placeholderText: qsTr("valor")
-                    text: value
-                }
-
-                TextField {
-                    id: revOrExp
-                    width: parent.width / 5 - parent.spacing
-                    placeholderText: qsTr("D/R/I/E")
-                    text: exptype
-                }
-
-                TextField {
-                    id: catg
-                    width: parent.width / 5 - parent.spacing
-                    placeholderText: qsTr("categoria")
-                    text: category
-                }
-
-                TextField {
-                    id: descp
-                    width: parent.width / 5 - parent.spacing
-                    placeholderText: qsTr("descrição")
-                    text: description
-                }
-
-                TextField {
-                    id: date
-                    width: parent.width / 5 - parent.spacing
-                    placeholderText: qsTr("DD/MM/AA")
-                    text: datestring
-                }
-            }
-        }
-
+        //delegate:
         ScrollBar.vertical: ScrollBar {
             id: expRevScrollBar
         }
