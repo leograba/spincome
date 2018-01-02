@@ -32,7 +32,7 @@ var dbVer = "1.0"
 var dbEstSize = 1000000
 
 function monthSel(month, root, db) {
-    root.header.text = qsTr("Tabela de despesas e receitas: " + root[month].text + "/" + root.yearSel.value)
+    root.header.text = qsTr(root[month].text + "/" + root.yearSel.value)
     root.state = "MSEL"
 
     // load data from current month and year

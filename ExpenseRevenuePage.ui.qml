@@ -34,16 +34,19 @@ Page {
         id: expRevHeader
         //width: parent.width - 250
         text: qsTr("Despesas e receitas")
+        wrapMode: Text.WordWrap
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
 
         Button {
             id: backBtn
             anchors.right: parent.right
-            width: 44
-            height: 55
+            width: parent.width / 10
+            height: parent.height
             text: qsTr("O")
+            anchors.rightMargin: 5
             visible: false
+            onClicked: root.state = ""
         }
     }
 
@@ -194,6 +197,11 @@ Page {
             PropertyChanges {
                 target: monthsGrid
                 visible: false
+            }
+
+            PropertyChanges {
+                target: backBtn
+                visible: true
             }
         }
     ]
