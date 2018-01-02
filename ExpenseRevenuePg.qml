@@ -53,14 +53,29 @@ ExpenseRevenuePage {
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 1, 1); event.accepted = false }
             }
 
-            TextField {
-                id: revOrExp
-                width: parent.width / 5 - parent.spacing
-                placeholderText: qsTr("D/R/I/E")
-                text: exptype
-                onEditingFinished: root.finishEditingSomeText("exptype", index)
-                Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
-                Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
+            Button {
+                // 0 - expense; 1 - revenue; 2 - investment; 3 - loan
+                //property int revOrExpState: exptype // no need, just use model data
+
+                id: revOrExpBtn
+                //anchors.right: parent.right
+                width: 30
+                height: parent.height
+                //text: exptype
+                //anchors.rightMargin: 5
+                //visible: false
+                background: Rectangle{
+                    color: "transparent"
+                    //border.width: 1
+                    //radius: 2
+                }
+                Image{
+                    id: revOrExpBtnImg
+                    anchors.fill: parent
+                    source: image
+                }
+
+                onClicked: ExpRev.revOrExpHandle(index, revOrExpBtnImg)
             }
 
             TextField {

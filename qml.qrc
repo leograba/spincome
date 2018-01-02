@@ -13,5 +13,9 @@
         <file>ExpenseRevenuePage.js</file>
         <file>main.cpp</file>
         <file>ExpenseRevenuePage.ui.qml</file>
+        <file>images/button_expense.png</file>
+        <file>images/button_investment.png</file>
+        <file>images/button_loan.png</file>
+        <file>images/button_revenue.png</file>
     </qresource>
 </RCC>

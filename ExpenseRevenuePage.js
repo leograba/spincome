@@ -26,7 +26,7 @@ monthBt[9] = "octBt";
 monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
-var dbName = "leonardoTeste15"
+var dbName = "leonardoTeste16"
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
@@ -71,21 +71,21 @@ function createConfigureDb(db){
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-30'])
+                          ['250.00', '1', 'alimentacao', 'ida ao mercado de novo', '2018-01-30'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['200.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-12'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '0', 'alimentacao', 'caetano de novo', '2018-01-13'])
+                          ['250.00', '2', 'alimentacao', 'caetano de novo', '2018-01-13'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['30.00', '0', 'lazer', 'festa de fim de ano', '2018-01-01'])
+                          ['30.00', '1', 'lazer', 'festa de fim de ano', '2018-01-01'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['2.50', '0', 'alimentacao', 'coxinha', '2018-01-30'])
+                          ['2.50', '1', 'alimentacao', 'coxinha', '2018-01-30'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['1000.00', '0', 'aluguel', 'aluguel', '2018-01-10'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['271.21', '0', 'condomínio', 'condomínio', '2018-01-13'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['20.00', '0', 'lazer', 'ida ao shopping', '2018-01-30'])
+                          ['20.00', '3', 'lazer', 'ida ao shopping', '2018-01-30'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['350.00', '0', 'alimentacao', 'muitas despesas', '2017-07-30'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
@@ -127,20 +127,27 @@ function loadDataFromDb(db, yearMonthString){
                                     "WHERE strftime('%Y-%m', date) = '" + yearMonthString + "' " +
                                     "ORDER BY date")
             for(var i = 0; i < res.rows.length; i++){
+                var image;
+                if(res.rows.item(i).exptype === 0) image = "images/button_expense.png"
+                else if(res.rows.item(i).exptype === 1) image = "images/button_revenue.png"
+                else if(res.rows.item(i).exptype === 2) image ="images/button_investment.png"
+                else image ="images/button_loan.png"
                 listOfExpRevs.append({   "value": res.rows.item(i).value.toFixed(2),
-                                         "exptype": res.rows.item(i).exptype.toString(),
+                                         //"exptype": res.rows.item(i).exptype.toString(),
+                                         "exptype": res.rows.item(i).exptype,
+                                         "image": image,
                                          "category": res.rows.item(i).category,
                                          "description": res.rows.item(i).description,
                                          "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4)
                                   })
             }
-            listOfExpRevs.sync() // no need here, but just to remember if ever needed
+            //listOfExpRevs.sync() // no need here, but needed in worker
             expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
             //expRevListView.positionViewAtEnd() // this line would remove animation when going to last index
             //console.log(JSON.stringify(listOfExpRevs))
             //console.log(JSON.stringify(expRevListView.count))
             console.log(JSON.stringify(expRevListView.currentIndex))
-            console.log(JSON.stringify(expRevListView.model.get(0).datestring))
+            console.log(JSON.stringify(expRevListView.model.get(0)))
         }
         catch(err){
             console.log("Error reading from table exprev: " + err)
@@ -159,4 +166,24 @@ function highlightOnTab(index, isLastCol, reverse){
         expRevListView.currentIndex = index - 1
     else
         expRevListView.currentIndex = index
+}
+
+function revOrExpHandle(index){
+    if(expRevListView.model.get(index).exptype === 0){
+        expRevListView.model.get(index).exptype = 1
+        expRevListView.model.get(index).image = "images/button_revenue.png"
+    }
+    else if(expRevListView.model.get(index).exptype === 1){
+        expRevListView.model.get(index).exptype = 2
+        expRevListView.model.get(index).image = "images/button_investment.png"
+    }
+    else if(expRevListView.model.get(index).exptype === 2){
+        expRevListView.model.get(index).exptype = 3
+        expRevListView.model.get(index).image = "images/button_loan.png"
+    }
+    else{
+        expRevListView.model.get(index).exptype = 0
+        expRevListView.model.get(index).image = "images/button_expense.png"
+    }
+    console.log(JSON.stringify(expRevListView.model.get(index)))
 }
