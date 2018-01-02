@@ -26,7 +26,7 @@ monthBt[9] = "octBt";
 monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
-var dbName = "leonardoTeste14"
+var dbName = "leonardoTeste15"
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
@@ -50,8 +50,6 @@ function setup(root){
     // Highlight current month button
     root[month[currentDate.getMonth()]+"Bt"].highlighted = true
 
-    // Highlight last line from table
-    //root.expRevListView.positionViewAtEnd()
 }
 
 function createConfigureDb(db){
@@ -70,6 +68,26 @@ function createConfigureDb(db){
     db.transaction(function(tx){
         // Create dummy initial values for testing
         try{
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['250.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-30'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['200.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-12'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['250.00', '0', 'alimentacao', 'caetano de novo', '2018-01-13'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['30.00', '0', 'lazer', 'festa de fim de ano', '2018-01-01'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['2.50', '0', 'alimentacao', 'coxinha', '2018-01-30'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['1000.00', '0', 'aluguel', 'aluguel', '2018-01-10'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['271.21', '0', 'condomínio', 'condomínio', '2018-01-13'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['20.00', '0', 'lazer', 'ida ao shopping', '2018-01-30'])
+            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                          ['350.00', '0', 'alimentacao', 'muitas despesas', '2017-07-30'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
                           ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
             var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
@@ -114,10 +132,11 @@ function loadDataFromDb(db, yearMonthString){
                                       "datestring": res.rows.item(i).date
                                   })
             }
-            expRevListView.positionViewAtBeginning() // highlight first line otherwise index is -1 instead of 0
+            expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
+            //expRevListView.positionViewAtEnd() // this line would remove animation when going to last index
             //console.log(JSON.stringify(listOfExpRevs))
             //console.log(JSON.stringify(expRevListView.count))
-            //console.log(JSON.stringify(expRevListView.currentIndex))
+            console.log(JSON.stringify(expRevListView.currentIndex))
             //console.log(JSON.stringify(expRevListView.currentItem))
         }
         catch(err){

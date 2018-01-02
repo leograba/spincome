@@ -7,11 +7,13 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Tabs")
+    onBeforeRendering: swipeView.currentIndex = tabBar.currentIndex //set in SwipeView after debug
 
     SwipeView {
         id: swipeView
         anchors.fill: parent
-        currentIndex: tabBar.currentIndex
+        currentIndex: 1 //start at tab 2 for debug
+
 
         DashboardPage {
         }
