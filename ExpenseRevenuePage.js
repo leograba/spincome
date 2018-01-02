@@ -123,13 +123,15 @@ function loadDataFromDb(db, yearMonthString){
         // Read whole db - not very good idea. Should filter for month and year!
         try{
             //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', date) BETWEEN '2017-12-01' AND '2017-12-31'")
-            var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m', date) = '" + yearMonthString + "' ORDER BY date")
+            var res = tx.executeSql("SELECT * FROM exprev " +
+                                    "WHERE strftime('%Y-%m', date) = '" + yearMonthString + "' " +
+                                    "ORDER BY date")
             for(var i = 0; i < res.rows.length; i++){
                 listOfExpRevs.append({   "value": res.rows.item(i).value.toFixed(2),
-                                      "exptype": res.rows.item(i).exptype.toString(),
-                                      "category": res.rows.item(i).category,
-                                      "description": res.rows.item(i).description,
-                                      "datestring": res.rows.item(i).date
+                                         "exptype": res.rows.item(i).exptype.toString(),
+                                         "category": res.rows.item(i).category,
+                                         "description": res.rows.item(i).description,
+                                         "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4)
                                   })
             }
             listOfExpRevs.sync() // no need here, but just to remember if ever needed
