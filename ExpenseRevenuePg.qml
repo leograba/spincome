@@ -45,7 +45,7 @@ ExpenseRevenuePage {
 
             TextField {
                 id: howMuch
-                width: parent.width / 5 - parent.spacing
+                width: 0.17 * parent.width - parent.spacing - 30 //30 is to make up to the revOrExpBtn
                 placeholderText: qsTr("valor")
                 text: value
                 onEditingFinished: root.finishEditingSomeText("value", index)
@@ -54,33 +54,24 @@ ExpenseRevenuePage {
             }
 
             Button {
-                // 0 - expense; 1 - revenue; 2 - investment; 3 - loan
-                //property int revOrExpState: exptype // no need, just use model data
-
+                // exprev ==> 0 - expense; 1 - revenue; 2 - investment; 3 - loan
                 id: revOrExpBtn
-                //anchors.right: parent.right
                 width: 30
                 height: parent.height
-                //text: exptype
-                //anchors.rightMargin: 5
-                //visible: false
                 background: Rectangle{
                     color: "transparent"
-                    //border.width: 1
-                    //radius: 2
                 }
                 Image{
                     id: revOrExpBtnImg
                     anchors.fill: parent
                     source: image
                 }
-
                 onClicked: ExpRev.revOrExpHandle(index, revOrExpBtnImg)
             }
 
             TextField {
                 id: catg
-                width: parent.width / 5 - parent.spacing
+                width: 0.18 * parent.width - parent.spacing
                 placeholderText: qsTr("categoria")
                 text: category
                 onEditingFinished: root.finishEditingSomeText("category", index)
@@ -90,7 +81,7 @@ ExpenseRevenuePage {
 
             TextField {
                 id: descp
-                width: parent.width / 5 - parent.spacing
+                width: 0.51 * parent.width - parent.spacing
                 placeholderText: qsTr("descrição")
                 text: description
                 onEditingFinished: root.finishEditingSomeText("description", index)
@@ -100,8 +91,8 @@ ExpenseRevenuePage {
 
             TextField {
                 id: date
-                width: parent.width / 5 - parent.spacing
-                placeholderText: qsTr("DD/MM/AA")
+                width: 0.14 * parent.width - parent.spacing
+                //placeholderText: qsTr("DD/MM/AA")
                 text: datestring
                 inputMask: "99/99/99"
                 inputMethodHints: Qt.ImhDate //only a hint!
