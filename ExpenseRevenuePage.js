@@ -35,11 +35,20 @@ function monthSel(month, root, db) {
     root.header.text = qsTr(root[month].text + "/" + root.yearSel.value)
     root.state = "MSEL"
 
-    // load data from current month and year
+    // load data from current month and year, if not loaded yet
     var monthZeroPadded = (monthBt.indexOf(month)+1).toString()
     while (monthZeroPadded.length < 2) { monthZeroPadded = "0" + monthZeroPadded}
     var yearMonthString = root.yearSel.value + "-" + monthZeroPadded
-    loadDataFromDb(db, yearMonthString)
+    if(lastYearMonth === yearMonthString){
+        // do nothing
+    }
+    else{
+        listOfExpRevs.clear()
+        loadDataFromDb(db, yearMonthString)
+    }
+
+    // set selected month and year for comparison
+    lastYearMonth = yearMonthString
 }
 
 function setup(root){
@@ -141,9 +150,16 @@ function loadDataFromDb(db, yearMonthString){
                                          "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4)
                                   })
             }
+            listOfExpRevs.append({   "value": "",
+                                     "exptype": 0,
+                                     "image": "images/button_expense.png",
+                                     "category": "",
+                                     "description": "",
+                                     "datestring": ""
+                              })
             //listOfExpRevs.sync() // no need here, but needed in worker
             expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
-            //expRevListView.positionViewAtEnd() // this line would remove animation when going to last index
+            expRevListView.positionViewAtEnd() // this line removes animation when going to last index
             //console.log(JSON.stringify(listOfExpRevs))
             //console.log(JSON.stringify(expRevListView.count))
             console.log(JSON.stringify(expRevListView.currentIndex))

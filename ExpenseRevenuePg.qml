@@ -6,6 +6,7 @@ import "/ExpenseRevenuePage.js" as ExpRev
 
 ExpenseRevenuePage {
     property var db: new Object()
+    property string lastYearMonth
     signal finishEditingSomeText(string cType, int cIndex)
 
     Component.onCompleted: {
@@ -15,6 +16,7 @@ ExpenseRevenuePage {
                                                ExpRev.createConfigureDb)
     }
 
+    // selection buttons
     janBt.onClicked: root.monthButtonClickedSignal("janBt")
     febBt.onClicked: root.monthButtonClickedSignal("febBt")
     marBt.onClicked: root.monthButtonClickedSignal("marBt")
@@ -28,8 +30,8 @@ ExpenseRevenuePage {
     novBt.onClicked: root.monthButtonClickedSignal("novBt")
     decBt.onClicked: root.monthButtonClickedSignal("decBt")
 
+    // signals
     onMonthButtonClickedSignal: ExpRev.monthSel(mth, root, db)
-
     onFinishEditingSomeText: console.log("Type is: " + cType + "; Index is: " + cIndex)
 
     expRevListView.delegate: Item {
@@ -117,10 +119,4 @@ ExpenseRevenuePage {
         //or do nothing maybe for now? Well I will leave as it is
         Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
     }
-
-    //entryMouseArea.onClicked: expRevListView.currentIndex = index
-
-    //expRevListView.Keys.onUpPressed: expRevScrollBar.decrease()
-    //expRevListView.Keys.onDownPressed: expRevScrollBar.increase()
-    //expRevKeys.onUpPressed: console.log("Up pressed!")
 }
