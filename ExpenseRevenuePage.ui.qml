@@ -43,10 +43,18 @@ Page {
             anchors.right: parent.right
             width: parent.width / 10
             height: parent.height
-            text: qsTr("O")
             anchors.rightMargin: 5
             visible: false
             onClicked: root.state = ""
+            Image {
+                anchors.rightMargin: 12
+                anchors.leftMargin: 12
+                anchors.bottomMargin: 12
+                anchors.topMargin: 12
+                anchors.fill: parent
+                source: "images/button_back.png"
+                fillMode: Image.PreserveAspectFit
+            }
         }
     }
 

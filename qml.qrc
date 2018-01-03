@@ -17,5 +17,6 @@
         <file>images/button_investment.png</file>
         <file>images/button_loan.png</file>
         <file>images/button_revenue.png</file>
+        <file>images/button_back.png</file>
     </qresource>
 </RCC>
