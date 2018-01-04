@@ -22,10 +22,11 @@ Page {
 
     Text {
         id: text1
-        x: 47
-        y: 86
+        x: 41
+        y: 58
+        color: "#2f39eb"
         text: qsTr("Ola natalia")
-        font.pixelSize: 12
+        font.pixelSize: 40
     }
 
     CheckBox {
@@ -33,6 +34,14 @@ Page {
         x: 31
         y: 105
         text: qsTr("Te amo")
+        onClicked: {
+            if (checkBox.checked) {
+                dial.enabled = false
+            } else {
+                dial.enabled = true
+            }
+        }
+        font.pointSize: 40
     }
 
     CheckBox {
@@ -40,12 +49,17 @@ Page {
         x: 31
         y: 189
         text: qsTr("Te odeio")
+        font.pointSize: 40
+        font.capitalization: Font.AllLowercase
     }
 
     Dial {
         id: dial
         x: 343
         y: 53
+        width: 376
+        height: 363
+        enabled: true
         font.weight: Font.ExtraLight
         spacing: 1
         stepSize: 5
@@ -55,11 +69,16 @@ Page {
 
         Text {
             id: dialtext
-            x: 38
-            y: 116
+            x: 117
+            y: 131
+            width: 143
+            height: 102
+            color: "#2f39eb"
             text: Math.round(dial.value)
+            font.bold: true
+            font.family: "Times New Roman"
             textFormat: Text.PlainText
-            font.pixelSize: 17
+            font.pixelSize: 120
         }
     }
 }
