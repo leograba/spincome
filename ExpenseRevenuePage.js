@@ -203,3 +203,40 @@ function revOrExpHandle(index){
     }
     console.log(JSON.stringify(expRevListView.model.get(index)))
 }
+
+function saveChanges(db, type, index, value){
+    console.log("Value to be updated: " + value)
+    //update value because it isn done automatically - maybe it should be done in the qml directly
+    //because this way I have to pass an extra variable to this function, etc...
+    expRevListView.model.get(index)[type] = value
+    console.log(JSON.stringify(expRevListView.model))
+    console.log(JSON.stringify(expRevListView.model.get(index)))
+    //just to make more readable, put the values in separate variables
+    var d = new Object()
+    d.value = expRevListView.model.get(index).value
+    d.exptype = expRevListView.model.get(index).exptype
+    d.category = expRevListView.model.get(index).category
+    d.description = expRevListView.model.get(index).description
+    d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
+            expRevListView.model.get(index).datestring.slice(3,5) + "-" +
+            expRevListView.model.get(index).datestring.slice(0,2)
+    console.log("Data to be saved:\n" + JSON.stringify(d))
+    if(index === (expRevListView.model.count - 1)) //if last index, add entry
+        console.log("Last index")
+        /*db.transaction(function(tx){
+            // Create dummy initial values for testing
+            try{
+                var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                              ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
+                console.log("Entry added")
+            }
+            catch(err){
+                console.log("Error inserting into table exprev: " + err)
+            }
+        })*/
+    else{ // otherwise just update
+        console.log("Some index: " + index)
+        //updateEntry
+    }
+
+}

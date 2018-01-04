@@ -7,7 +7,7 @@ import "/ExpenseRevenuePage.js" as ExpRev
 ExpenseRevenuePage {
     property var db: new Object()
     property string lastYearMonth
-    signal finishEditingSomeText(string cType, int cIndex)
+    signal finishEditingSomeText(string cType, int cIndex, string cVal)
 
     Component.onCompleted: {
         ExpRev.setup(root)
@@ -32,7 +32,7 @@ ExpenseRevenuePage {
 
     // signals
     onMonthButtonClickedSignal: ExpRev.monthSel(mth, root, db)
-    onFinishEditingSomeText: console.log("Type is: " + cType + "; Index is: " + cIndex)
+    onFinishEditingSomeText: ExpRev.saveChanges(db, cType, cIndex, cVal)
 
     expRevListView.delegate: Item {
         anchors.right: parent.right
@@ -50,7 +50,7 @@ ExpenseRevenuePage {
                 width: 0.17 * parent.width - parent.spacing - 30 //30 is to make up to the revOrExpBtn
                 placeholderText: qsTr("valor")
                 text: value
-                onEditingFinished: root.finishEditingSomeText("value", index)
+                onEditingFinished: root.finishEditingSomeText("value", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 1, 1); event.accepted = false }
             }
@@ -76,7 +76,7 @@ ExpenseRevenuePage {
                 width: 0.18 * parent.width - parent.spacing
                 placeholderText: qsTr("categoria")
                 text: category
-                onEditingFinished: root.finishEditingSomeText("category", index)
+                onEditingFinished: root.finishEditingSomeText("category", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); ; event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }
@@ -86,7 +86,7 @@ ExpenseRevenuePage {
                 width: 0.51 * parent.width - parent.spacing
                 placeholderText: qsTr("descrição")
                 text: description
-                onEditingFinished: root.finishEditingSomeText("description", index)
+                onEditingFinished: root.finishEditingSomeText("description", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }
@@ -98,7 +98,7 @@ ExpenseRevenuePage {
                 text: datestring
                 inputMask: "99/99/99"
                 inputMethodHints: Qt.ImhDate //only a hint!
-                onEditingFinished: root.finishEditingSomeText("datestring", index)
+                onEditingFinished: root.finishEditingSomeText("datestring", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 1, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }
