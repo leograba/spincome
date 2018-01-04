@@ -68,7 +68,10 @@ ExpenseRevenuePage {
                     anchors.fill: parent
                     source: image
                 }
-                onClicked: ExpRev.revOrExpHandle(index, revOrExpBtnImg)
+                onClicked: {
+                    ExpRev.revOrExpHandle(index, revOrExpBtnImg)
+                    ExpRev.saveChanges(db, "exptype", index, exptype)
+                }
             }
 
             TextField {
