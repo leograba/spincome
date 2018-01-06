@@ -26,7 +26,7 @@ monthBt[9] = "octBt";
 monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
-var dbName = "leonardoTeste16"
+var dbName = "leonardoTeste17"
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
@@ -132,7 +132,7 @@ function loadDataFromDb(db, yearMonthString){
         // Read whole db - not very good idea. Should filter for month and year!
         try{
             //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', date) BETWEEN '2017-12-01' AND '2017-12-31'")
-            var res = tx.executeSql("SELECT * FROM exprev " +
+            var res = tx.executeSql("SELECT rowid, * FROM exprev " +
                                     "WHERE strftime('%Y-%m', date) = '" + yearMonthString + "' " +
                                     "ORDER BY date")
             for(var i = 0; i < res.rows.length; i++){
@@ -147,15 +147,18 @@ function loadDataFromDb(db, yearMonthString){
                                          "image": image,
                                          "category": res.rows.item(i).category,
                                          "description": res.rows.item(i).description,
-                                         "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4)
+                                         "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4),
+                                         "rowid": res.rows.item(i).rowid
                                   })
+                console.log("Date: " + res.rows.item(i).date)
             }
             listOfExpRevs.append({   "value": "",
                                      "exptype": 0,
                                      "image": "images/button_expense.png",
                                      "category": "",
                                      "description": "",
-                                     "datestring": ""
+                                     "datestring": "",
+                                     "rowid": null
                               })
             //listOfExpRevs.sync() // no need here, but needed in worker
             expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
@@ -207,6 +210,8 @@ function revOrExpHandle(index){
 function saveChanges(db, type, index, value){
     //console.log("Value to be updated: " + value)
     //update value and save only if the value have changed
+    var lastIndex = expRevListView.model.count - 1
+    var currRowid = expRevListView.model.get(index).rowid
     if((expRevListView.model.get(index)[type] === value) && type !== "exptype")
         return
     else
@@ -215,32 +220,56 @@ function saveChanges(db, type, index, value){
     //console.log(JSON.stringify(expRevListView.model.get(index)))
     //just to make more readable, put the values in separate variables
     var d = new Object()
+    //d.rowid = expRevListView.model.get(index).rowid //rowid is handled automatically
     d.value = expRevListView.model.get(index).value
     d.exptype = expRevListView.model.get(index).exptype
     d.category = expRevListView.model.get(index).category
     d.description = expRevListView.model.get(index).description
-    d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
-            expRevListView.model.get(index).datestring.slice(3,5) + "-" +
-            expRevListView.model.get(index).datestring.slice(0,2)
+    if(expRevListView.model.get(index).datestring){
+        d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
+                expRevListView.model.get(index).datestring.slice(3,5) + "-" +
+                expRevListView.model.get(index).datestring.slice(0,2)
+    }
+    else d.datestring = root.lastYearMonth + "-01" //Date is required when loading data from db
     console.log("Data to be saved:\n" + JSON.stringify(d))
-    if(index === (expRevListView.model.count - 1)){ //if last index, add entry
-        console.log("Last index: " + index)
+    if((index === lastIndex) && !currRowid){ //if last index and entry have not been added yet, add entry
+        console.log("New entry: " + index)
         // hey must do some check before adding!
         db.transaction(function(tx){
-            // Insert entry - does not care about duplicates right now
+            // Insert entry - don't care about duplicates right now
             try{
                 var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
+                              [d.value, d.exptype, d.category, d.description, d.datestring])
+                console.log("Entry added")
+
+            }
+            catch(err){
+                console.log("Error inserting into table exprev: " + err)
+            }
+            try{
+                var res = tx.executeSql("SELECT last_insert_rowid() FROM exprev")
+                expRevListView.model.get(index).rowid = Number(res.insertId)
+                console.log("Last inserted rowid: " + JSON.stringify(res))
+            }
+            catch(err){
+                console.log("Error getting last inserted rowid: " + err)
+            }
+        })
+    }
+    else{ // otherwise just update
+        console.log("Already placed entry: " + index)
+        /*db.transaction(function(tx){
+            // Update entry - don't care about duplicates right now
+            try{
+                var res = tx.executeSql("UPDATE exprev SET " + type + " = '" + d[type] + "' " +
+                                        "WHERE entryid",
                               [d.value, d.exptype, d.category, d.description, d.datestring])
                 console.log("Entry added")
             }
             catch(err){
                 console.log("Error inserting into table exprev: " + err)
             }
-        })
-    }
-    else{ // otherwise just update
-        console.log("Some index: " + index)
-        //updateEntry
+        })*/
     }
 
 }
