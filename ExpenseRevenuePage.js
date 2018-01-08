@@ -26,7 +26,7 @@ monthBt[9] = "octBt";
 monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
-var dbName = "leonardoTeste17"
+var dbName = "leonardoTeste18"
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
@@ -71,7 +71,7 @@ function createConfigureDb(db){
                       "exptype INT(1) DEFAULT '0' NOT NULL, " +
                       "category CHAR(40), " +
                       "description CHAR(160), " +
-                      "date DATE" +
+                      "datestring DATE" +
                       ")")
     })
     db.transaction(function(tx){
@@ -131,10 +131,10 @@ function loadDataFromDb(db, yearMonthString){
     db.transaction(function(tx){
         // Read whole db - not very good idea. Should filter for month and year!
         try{
-            //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', date) BETWEEN '2017-12-01' AND '2017-12-31'")
+            //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', datestring) BETWEEN '2017-12-01' AND '2017-12-31'")
             var res = tx.executeSql("SELECT rowid, * FROM exprev " +
-                                    "WHERE strftime('%Y-%m', date) = '" + yearMonthString + "' " +
-                                    "ORDER BY date")
+                                    "WHERE strftime('%Y-%m', datestring) = '" + yearMonthString + "' " +
+                                    "ORDER BY datestring")
             for(var i = 0; i < res.rows.length; i++){
                 var image;
                 if(res.rows.item(i).exptype === 0) image = "images/button_expense.png"
@@ -147,10 +147,10 @@ function loadDataFromDb(db, yearMonthString){
                                          "image": image,
                                          "category": res.rows.item(i).category,
                                          "description": res.rows.item(i).description,
-                                         "datestring": res.rows.item(i).date.slice(8,10) + "/" + res.rows.item(i).date.slice(5,7) + "/" + res.rows.item(i).date.slice(2,4),
+                                         "datestring": res.rows.item(i).datestring.slice(8,10) + "/" + res.rows.item(i).datestring.slice(5,7) + "/" + res.rows.item(i).datestring.slice(2,4),
                                          "rowid": res.rows.item(i).rowid
                                   })
-                console.log("Date: " + res.rows.item(i).date)
+                console.log("Date: " + res.rows.item(i).datestring)
             }
             listOfExpRevs.append({   "value": "",
                                      "exptype": 0,
@@ -254,22 +254,29 @@ function saveChanges(db, type, index, value){
             catch(err){
                 console.log("Error getting last inserted rowid: " + err)
             }
+            listOfExpRevs.append({   "value": "",
+                                     "exptype": 0,
+                                     "image": "images/button_expense.png",
+                                     "category": "",
+                                     "description": "",
+                                     "datestring": "",
+                                     "rowid": null
+                              })
         })
     }
     else{ // otherwise just update
         console.log("Already placed entry: " + index)
-        /*db.transaction(function(tx){
+        db.transaction(function(tx){
             // Update entry - don't care about duplicates right now
             try{
                 var res = tx.executeSql("UPDATE exprev SET " + type + " = '" + d[type] + "' " +
-                                        "WHERE entryid",
-                              [d.value, d.exptype, d.category, d.description, d.datestring])
-                console.log("Entry added")
+                                        "WHERE rowid = " + currRowid +";")
+                console.log("Entry updated")
             }
             catch(err){
                 console.log("Error inserting into table exprev: " + err)
             }
-        })*/
+        })
     }
 
 }
