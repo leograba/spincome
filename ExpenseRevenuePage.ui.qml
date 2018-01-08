@@ -178,6 +178,53 @@ Page {
         }
         highlightFollowsCurrentItem: true
 
+        header: Row {
+            id: rowHd
+            spacing: 2
+            anchors.right: parent.right
+            anchors.left: parent.left
+
+            TextField {
+                id: howMuchHd
+                width: 0.17 * parent.width - parent.spacing
+                       - 33 //30 is to make up to the revOrExpBtn
+                text: qsTr("Valor")
+                activeFocusOnPress: false
+                activeFocusOnTab: false
+            }
+
+            TextField {
+                id: revOrExpBtnHd
+                width: 33
+                text: qsTr("Tipo")
+                activeFocusOnPress: false
+                activeFocusOnTab: false
+            }
+
+            TextField {
+                id: catgHd
+                width: 0.18 * parent.width - parent.spacing
+                text: qsTr("Categoria")
+                activeFocusOnPress: false
+                activeFocusOnTab: false
+            }
+
+            TextField {
+                id: descpHd
+                width: 0.51 * parent.width - parent.spacing
+                text: qsTr("Descrição")
+                activeFocusOnPress: false
+                activeFocusOnTab: false
+            }
+
+            TextField {
+                id: dateHd
+                width: 0.14 * parent.width - parent.spacing
+                text: qsTr("Dia")
+                activeFocusOnPress: false
+                activeFocusOnTab: false
+            }
+        }
         model: ListModel {
             id: listOfExpRevs
         }

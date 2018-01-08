@@ -74,6 +74,7 @@ function createConfigureDb(db){
                       "datestring DATE" +
                       ")")
     })
+    /*
     db.transaction(function(tx){
         // Create dummy initial values for testing
         try{
@@ -123,13 +124,16 @@ function createConfigureDb(db){
             console.log("Error inserting into table exprev: " + err)
         }
     })
+    */
 }
 
 function loadDataFromDb(db, yearMonthString){
     //console.log(JSON.stringify(listOfExpRevs))
     //console.log(JSON.stringify(expRevListView.count))
+    var currentDate = new Date()
+    var cdateStr = currentDate.getDate().toString();
+    while (cdateStr.length < 2) { cdateStr = "0" + cdateStr}
     db.transaction(function(tx){
-        // Read whole db - not very good idea. Should filter for month and year!
         try{
             //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', datestring) BETWEEN '2017-12-01' AND '2017-12-31'")
             var res = tx.executeSql("SELECT rowid, * FROM exprev " +
@@ -147,7 +151,8 @@ function loadDataFromDb(db, yearMonthString){
                                          "image": image,
                                          "category": res.rows.item(i).category,
                                          "description": res.rows.item(i).description,
-                                         "datestring": res.rows.item(i).datestring.slice(8,10) + "/" + res.rows.item(i).datestring.slice(5,7) + "/" + res.rows.item(i).datestring.slice(2,4),
+                                         //"datestring": res.rows.item(i).datestring.slice(8,10) + "/" + res.rows.item(i).datestring.slice(5,7) + "/" + res.rows.item(i).datestring.slice(2,4),
+                                         "datestring": res.rows.item(i).datestring.slice(8,10),
                                          "rowid": res.rows.item(i).rowid
                                   })
                 console.log("Date: " + res.rows.item(i).datestring)
@@ -157,7 +162,7 @@ function loadDataFromDb(db, yearMonthString){
                                      "image": "images/button_expense.png",
                                      "category": "",
                                      "description": "",
-                                     "datestring": "",
+                                     "datestring": cdateStr,//force a date
                                      "rowid": null
                               })
             //listOfExpRevs.sync() // no need here, but needed in worker
@@ -225,10 +230,11 @@ function saveChanges(db, type, index, value){
     d.exptype = expRevListView.model.get(index).exptype
     d.category = expRevListView.model.get(index).category
     d.description = expRevListView.model.get(index).description
-    if(expRevListView.model.get(index).datestring){
-        d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
+    if(expRevListView.model.get(index).datestring){ // this condition may be removed now that current date is being forced on new entry
+        /*d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
                 expRevListView.model.get(index).datestring.slice(3,5) + "-" +
-                expRevListView.model.get(index).datestring.slice(0,2)
+                expRevListView.model.get(index).datestring.slice(0,2)*/
+        d.datestring = root.lastYearMonth + "-" + expRevListView.model.get(index).datestring
     }
     else d.datestring = root.lastYearMonth + "-01" //Date is required when loading data from db
     console.log("Data to be saved:\n" + JSON.stringify(d))

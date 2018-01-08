@@ -97,10 +97,10 @@ ExpenseRevenuePage {
             TextField {
                 id: date
                 width: 0.14 * parent.width - parent.spacing
-                //placeholderText: qsTr("DD/MM/AA")
+                placeholderText: qsTr("00")
                 text: datestring
-                inputMask: "99/99/99"
-                inputMethodHints: Qt.ImhDate //only a hint!
+                inputMask: "99" // inputMask messes with placeholderText
+                //inputMethodHints: Qt.ImhDate //only a hint!
                 onEditingFinished: root.finishEditingSomeText("datestring", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 1, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
