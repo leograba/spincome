@@ -74,57 +74,6 @@ function createConfigureDb(db){
                       "datestring DATE" +
                       ")")
     })
-    /*
-    db.transaction(function(tx){
-        // Create dummy initial values for testing
-        try{
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '1', 'alimentacao', 'ida ao mercado de novo', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['200.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-12'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '2', 'alimentacao', 'caetano de novo', '2018-01-13'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['30.00', '1', 'lazer', 'festa de fim de ano', '2018-01-01'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['2.50', '1', 'alimentacao', 'coxinha', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['1000.00', '0', 'aluguel', 'aluguel', '2018-01-10'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['271.21', '0', 'condomínio', 'condomínio', '2018-01-13'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['20.00', '3', 'lazer', 'ida ao shopping', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['350.00', '0', 'alimentacao', 'muitas despesas', '2017-07-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['150.00', '0', 'alimentacao', 'ida ao mercado para ceia', '2018-01-22'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['200.00', '0', 'alimentacao', 'ida ao mercado de novo', '2018-01-12'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['250.00', '0', 'alimentacao', 'caetano de novo', '2018-01-13'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['30.00', '0', 'lazer', 'festa de fim de ano', '2018-01-01'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['2.50', '0', 'alimentacao', 'coxinha', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['1000.00', '0', 'aluguel', 'aluguel', '2018-01-10'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['271.21', '0', 'condomínio', 'condomínio', '2018-01-13'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['20.00', '0', 'lazer', 'ida ao shopping', '2018-01-30'])
-            var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                          ['350.00', '0', 'alimentacao', 'muitas despesas', '2017-07-30'])
-            console.log("Dummy added")
-        }
-        catch(err){
-            console.log("Error inserting into table exprev: " + err)
-        }
-    })
-    */
 }
 
 function loadDataFromDb(db, yearMonthString){
