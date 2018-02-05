@@ -5,6 +5,8 @@ Page {
     id: dashboard
     width: 600
     height: 400
+    property alias passwd: passwd
+    property alias loginBtn: loginBtn
     property alias dashboard: dashboard
     property alias username: username
 
@@ -14,32 +16,12 @@ Page {
         padding: 10
     }
 
-    TextField {
-        id: username
-        x: 76
-        y: 6
-        placeholderText: qsTr("nome")
-        text: qsTr("leonardo")
-    }
-
-    TextField {
-        id: textField
-        x: 0
-        y: 6
-        width: 70
-        height: 42
-        text: qsTr("Usuário:")
-        leftPadding: 4
-        activeFocusOnPress: false
-        activeFocusOnTab: false
-    }
-
     GridView {
         id: gridView
-        anchors.left: username.right
-        anchors.leftMargin: 5
+        width: parent.width * 0.7
+        visible: false
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        anchors.bottomMargin: 5
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.top: parent.top
@@ -92,4 +74,84 @@ Page {
             }
         }
     }
+
+    TextField {
+        id: userLabel
+        height: 42
+        width: 70
+        text: qsTr("Usuário:")
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        activeFocusOnPress: false
+        activeFocusOnTab: false
+    }
+
+    TextField {
+        id: username
+        placeholderText: qsTr("nome")
+        text: root.userName
+        anchors.right: gridView.left
+        anchors.rightMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.left: userLabel.right
+        anchors.leftMargin: 0
+    }
+
+    TextField {
+        id: passwdLabel
+        height: 42
+        width: 70
+        text: qsTr("Senha:")
+        anchors.top: userLabel.bottom
+        anchors.topMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        activeFocusOnPress: false
+        activeFocusOnTab: false
+    }
+
+    TextField {
+        id: passwd
+        text: qsTr("")
+        anchors.right: gridView.left
+        anchors.rightMargin: 0
+        anchors.top: username.bottom
+        anchors.topMargin: 0
+        placeholderText: "passwd"
+        anchors.left: passwdLabel.right
+        anchors.leftMargin: 0
+        echoMode: TextInput.Password
+    }
+
+    Button {
+        id: loginBtn
+        text: qsTr("Login")
+        spacing: 5
+        anchors.right: gridView.left
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+        anchors.top: passwdLabel.bottom
+        anchors.topMargin: 0
+    }
+    states: [
+        State {
+            name: "login_success"
+            PropertyChanges {
+                target: gridView
+                visible: true
+            }
+        },
+
+        State {
+            name: "login_fail"
+        },
+
+        State {
+            name: "create_account"
+        }
+    ]
 }

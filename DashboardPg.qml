@@ -6,7 +6,11 @@ import "/dbDataHandling.js" as DataBase
 
 DashboardPage {
     Component.onCompleted: {
-        console.log("Some text here")
+        console.log("Some text here: " + root.userName)
         DataBase.setDbFromUsername(dashboard)
+    }
+
+    loginBtn.onClicked: {
+        dashboard.state = "login_success"
     }
 }
