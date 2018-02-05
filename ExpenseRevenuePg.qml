@@ -3,36 +3,39 @@ import QtQuick.Controls 2.3
 import QtQuick.LocalStorage 2.0
 import QtQml 2.2
 import "/ExpenseRevenuePage.js" as ExpRev
+import "/dbDataHandling.js" as DataBase
 
 ExpenseRevenuePage {
+    property string username: username
     property var db: new Object()
     property string lastYearMonth
     signal finishEditingSomeText(string cType, int cIndex, string cVal)
 
     Component.onCompleted: {
-        ExpRev.setup(root)
+        ExpRev.setup(expRevRoot)
+        console.log("Username at expense revenue page: " + username)
         db = LocalStorage.openDatabaseSync(ExpRev.dbName, ExpRev.dbVer,
                                                ExpRev.dbDesc, ExpRev.dbEstSize,
                                                ExpRev.createConfigureDb)
     }
 
     // selection buttons
-    janBt.onClicked: root.monthButtonClickedSignal("janBt")
-    febBt.onClicked: root.monthButtonClickedSignal("febBt")
-    marBt.onClicked: root.monthButtonClickedSignal("marBt")
-    aprBt.onClicked: root.monthButtonClickedSignal("aprBt")
-    mayBt.onClicked: root.monthButtonClickedSignal("mayBt")
-    junBt.onClicked: root.monthButtonClickedSignal("junBt")
-    julBt.onClicked: root.monthButtonClickedSignal("julBt")
-    augBt.onClicked: root.monthButtonClickedSignal("augBt")
-    sepBt.onClicked: root.monthButtonClickedSignal("sepBt")
-    octBt.onClicked: root.monthButtonClickedSignal("octBt")
-    novBt.onClicked: root.monthButtonClickedSignal("novBt")
-    decBt.onClicked: root.monthButtonClickedSignal("decBt")
+    janBt.onClicked: expRevRoot.monthButtonClickedSignal("janBt")
+    febBt.onClicked: expRevRoot.monthButtonClickedSignal("febBt")
+    marBt.onClicked: expRevRoot.monthButtonClickedSignal("marBt")
+    aprBt.onClicked: expRevRoot.monthButtonClickedSignal("aprBt")
+    mayBt.onClicked: expRevRoot.monthButtonClickedSignal("mayBt")
+    junBt.onClicked: expRevRoot.monthButtonClickedSignal("junBt")
+    julBt.onClicked: expRevRoot.monthButtonClickedSignal("julBt")
+    augBt.onClicked: expRevRoot.monthButtonClickedSignal("augBt")
+    sepBt.onClicked: expRevRoot.monthButtonClickedSignal("sepBt")
+    octBt.onClicked: expRevRoot.monthButtonClickedSignal("octBt")
+    novBt.onClicked: expRevRoot.monthButtonClickedSignal("novBt")
+    decBt.onClicked: expRevRoot.monthButtonClickedSignal("decBt")
 
     // signals
-    onMonthButtonClickedSignal: ExpRev.monthSel(mth, root, db)
-    onFinishEditingSomeText: ExpRev.saveChanges(db, cType, cIndex, cVal)
+    onMonthButtonClickedSignal: ExpRev.monthSel(mth, expRevRoot, db)
+    onFinishEditingSomeText: ExpRev.saveChanges(db, cType, cIndex, cVal, expRevRoot)
 
     expRevListView.delegate: Item {
         anchors.right: parent.right
@@ -50,7 +53,7 @@ ExpenseRevenuePage {
                 width: 0.17 * parent.width - parent.spacing - 30 //30 is to make up to the revOrExpBtn
                 placeholderText: qsTr("valor")
                 text: value
-                onEditingFinished: root.finishEditingSomeText("value", index, text)
+                onEditingFinished: expRevRoot.finishEditingSomeText("value", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 1, 1); event.accepted = false }
             }
@@ -70,7 +73,7 @@ ExpenseRevenuePage {
                 }
                 onClicked: {
                     ExpRev.revOrExpHandle(index, revOrExpBtnImg)
-                    ExpRev.saveChanges(db, "exptype", index, exptype)
+                    ExpRev.saveChanges(db, "exptype", index, exptype, expRevRoot)
                 }
             }
 
@@ -79,7 +82,7 @@ ExpenseRevenuePage {
                 width: 0.18 * parent.width - parent.spacing
                 placeholderText: qsTr("categoria")
                 text: category
-                onEditingFinished: root.finishEditingSomeText("category", index, text)
+                onEditingFinished: expRevRoot.finishEditingSomeText("category", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); ; event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }
@@ -89,7 +92,7 @@ ExpenseRevenuePage {
                 width: 0.51 * parent.width - parent.spacing
                 placeholderText: qsTr("descrição")
                 text: description
-                onEditingFinished: root.finishEditingSomeText("description", index, text)
+                onEditingFinished: expRevRoot.finishEditingSomeText("description", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }
@@ -101,7 +104,7 @@ ExpenseRevenuePage {
                 text: datestring
                 inputMask: "99" // inputMask messes with placeholderText
                 //inputMethodHints: Qt.ImhDate //only a hint!
-                onEditingFinished: root.finishEditingSomeText("datestring", index, text)
+                onEditingFinished: expRevRoot.finishEditingSomeText("datestring", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 1, 0); event.accepted = false }
                 Keys.onBacktabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
             }

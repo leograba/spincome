@@ -3,15 +3,15 @@ import QtQuick.Controls 2.3
 import QtQml 2.2
 
 Page {
-    id: root
+    id: expRevRoot
 
     width: 600
     height: 400
+    property alias expRevRoot: expRevRoot
     property alias expRevListView: expRevListView
 
     property alias monthsGrid: monthsGrid
     property alias yearSel: yearSel
-    property alias root: root
     property alias decBt: decBt
     property alias novBt: novBt
     property alias octBt: octBt
@@ -45,7 +45,7 @@ Page {
             height: parent.height
             anchors.rightMargin: 5
             visible: false
-            onClicked: root.state = ""
+            onClicked: expRevRoot.state = ""
             Image {
                 anchors.rightMargin: 12
                 anchors.leftMargin: 12
@@ -74,7 +74,7 @@ Page {
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
             text: qsTr("Janeiro")
-            //onClicked: root.monthBtnClickedSignal("jan")
+            //onClicked: expRevRoot.monthBtnClickedSignal("jan")
         }
 
         Button {
@@ -178,11 +178,13 @@ Page {
         }
         highlightFollowsCurrentItem: true
 
+        headerPositioning: ListView.PullBackHeader
         header: Row {
             id: rowHd
             spacing: 2
             anchors.right: parent.right
             anchors.left: parent.left
+            z: 2
 
             TextField {
                 id: howMuchHd

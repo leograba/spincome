@@ -27,6 +27,8 @@ monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
 var dbName = "leonardoTeste18"
+//var dbName = "leonardo" //for release
+//var dbName = dashboard.username
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
@@ -124,6 +126,7 @@ function loadDataFromDb(db, yearMonthString){
         }
         catch(err){
             console.log("Error reading from table exprev: " + err)
+
         }
     })
 }
@@ -161,7 +164,7 @@ function revOrExpHandle(index){
     console.log(JSON.stringify(expRevListView.model.get(index)))
 }
 
-function saveChanges(db, type, index, value){
+function saveChanges(db, type, index, value, root){
     //console.log("Value to be updated: " + value)
     //update value and save only if the value have changed
     var lastIndex = expRevListView.model.count - 1
