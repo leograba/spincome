@@ -33,14 +33,15 @@ var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
 
-function monthSel(month, root, db) {
-    root.header.text = qsTr(root[month].text + "/" + root.yearSel.value)
-    root.state = "MSEL"
+function monthSel(month, rootfrom, db) {
+    console.log(root.userName)
+    rootfrom.header.text = qsTr(rootfrom[month].text + "/" + rootfrom.yearSel.value)
+    rootfrom.state = "MSEL"
 
     // load data from current month and year, if not loaded yet
     var monthZeroPadded = (monthBt.indexOf(month)+1).toString()
     while (monthZeroPadded.length < 2) { monthZeroPadded = "0" + monthZeroPadded}
-    var yearMonthString = root.yearSel.value + "-" + monthZeroPadded
+    var yearMonthString = rootfrom.yearSel.value + "-" + monthZeroPadded
     if(lastYearMonth === yearMonthString){
         // do nothing
     }
@@ -53,13 +54,13 @@ function monthSel(month, root, db) {
     lastYearMonth = yearMonthString
 }
 
-function setup(root){
+function setup(rootfrom){
     //set current year
     var currentDate = new Date()
-    root.yearSel.value = currentDate.getFullYear()
+    rootfrom.yearSel.value = currentDate.getFullYear()
 
     // Highlight current month button
-    root[month[currentDate.getMonth()]+"Bt"].highlighted = true
+    rootfrom[month[currentDate.getMonth()]+"Bt"].highlighted = true
 
 }
 
@@ -164,7 +165,7 @@ function revOrExpHandle(index){
     console.log(JSON.stringify(expRevListView.model.get(index)))
 }
 
-function saveChanges(db, type, index, value, root){
+function saveChanges(db, type, index, value, rootfrom){
     //console.log("Value to be updated: " + value)
     //update value and save only if the value have changed
     var lastIndex = expRevListView.model.count - 1
@@ -186,9 +187,9 @@ function saveChanges(db, type, index, value, root){
         /*d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
                 expRevListView.model.get(index).datestring.slice(3,5) + "-" +
                 expRevListView.model.get(index).datestring.slice(0,2)*/
-        d.datestring = root.lastYearMonth + "-" + expRevListView.model.get(index).datestring
+        d.datestring = rootfrom.lastYearMonth + "-" + expRevListView.model.get(index).datestring
     }
-    else d.datestring = root.lastYearMonth + "-01" //Date is required when loading data from db
+    else d.datestring = rootfrom.lastYearMonth + "-01" //Date is required when loading data from db
     console.log("Data to be saved:\n" + JSON.stringify(d))
     if((index === lastIndex) && !currRowid){ //if last index and entry have not been added yet, add entry
         console.log("New entry: " + index)
