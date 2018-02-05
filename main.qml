@@ -14,10 +14,15 @@ ApplicationWindow {
         anchors.fill: parent
         currentIndex: 1 //start at tab 2 for debug
 
-
-        DashboardPage {
+        Loader{
+            id:dashboardLoader
+            source: "DashboardPg.qml"
         }
 
+/*
+        DashboardPage {
+        }
+*/
 
         Loader{
             id:expRevLoader
