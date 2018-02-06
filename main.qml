@@ -3,11 +3,13 @@ import QtQuick.Controls 2.3
 //import "/ExpenseRevenuePage.js" as ExpRev
 
 ApplicationWindow {
+    id: root
     visible: true
     width: 640
     height: 480
     title: qsTr("Tabs")
     onBeforeRendering: swipeView.currentIndex = tabBar.currentIndex //set in SwipeView after debug
+    property string userName: "leonardoss"
 
     SwipeView {
         id: swipeView

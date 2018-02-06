@@ -6,14 +6,13 @@ import "/ExpenseRevenuePage.js" as ExpRev
 import "/dbDataHandling.js" as DataBase
 
 ExpenseRevenuePage {
-    property string username: username
     property var db: new Object()
     property string lastYearMonth
     signal finishEditingSomeText(string cType, int cIndex, string cVal)
 
     Component.onCompleted: {
         ExpRev.setup(expRevRoot)
-        console.log("Username at expense revenue page: " + username)
+        console.log("Username at expense revenue page: " + root.userName)
         db = LocalStorage.openDatabaseSync(ExpRev.dbName, ExpRev.dbVer,
                                                ExpRev.dbDesc, ExpRev.dbEstSize,
                                                ExpRev.createConfigureDb)
