@@ -17,28 +17,40 @@ function getDbFromUsername(){
 }
 
 function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
+    /* Please always pass all arguments. Use empty string if need to pass empty argument */
     var strInit = "SELECT rowid, * FROM ";
-    var strDatestrIni = "WHERE strftime('%Y-%m', datestring) = '";
+    var strDatestrIni = " WHERE strftime('%Y-%m', datestring) = '";
     var strDatestrEnd = "' ORDER BY datestring";
-    var strWhere = "WHERE exptype = '";
-    if(mode === 0){//get full db data
-        return strInit + tableName;
+    var strWhere = " WHERE exptype = '";
+    var fullStr = "";
+
+    if( typeof dateFilter === "undefined" || typeof typeFilter === "undefined"){
+        throw "Error: no dateFilter and/or typeFilter passed!"
     }
-    else if(mode === 1){//get data from month/year
-        return strInit + tableName + strDatestrIni + dateFilter + strDatestrEnd;
+
+    if(mode === 0){//get full db data
+        fullStr = strInit + tableName;
+        return fullStr;
+    }
+    else if(mode === 1 && dateFilter){//get data from month/year
+        fullStr = strInit + tableName + strDatestrIni + dateFilter + strDatestrEnd;
+        return fullStr;
     }
     else if(mode === 2){//get data from time window
-        return ;
+        return fullStr;
     }
     else if(mode === 3){//get data from type
-        return strInit + tableName + strWhere + typeFilter + strDatestrEnd;
+        fullStr = strInit + tableName + strWhere + typeFilter + strDatestrEnd;
+        return fullStr;
     }
-    else if(mode === 4){//get data from month/year and type
-        return strInit + tableName + strDatestrIni + dateFilter "' AND exptype = '" + typeFilter + strDatestrEnd;
+    else if(mode === 4 && dateFilter && typeFilter){//get data from month/year and type
+        fullStr = strInit + tableName + strDatestrIni + dateFilter + "' AND exptype = '" + typeFilter + strDatestrEnd;
+        return fullStr;
     }
     else if(mode === 5){//get data from time window and type
-        return ;
+        return fullStr;
     }
+    else return "error!";
 }
 
 function loadDataFromDb(db, yearMonthString){
