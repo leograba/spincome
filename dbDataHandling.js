@@ -8,16 +8,25 @@ var dbEstSize = 1000000
 var dbUserName;
 
 function setDbFromUsername(rootObject) {
-    //console.log(rootObject.username.text)
-    dbUserName = rootObject.username.text
+    /* Set the name of the DB to be accessed
+       Have to be called in every QML that imports this JS library*/
+
+    dbUserName = rootObject.userName
+    console.debug("dbDataHandling.js: setDbFromUsername: dbUserName: " + dbUserName)
 }
 
 function getDbFromUsername(){
+    /* Get the name of the DB to be accessed
+       For internal usage whenever accessing the DB*/
+
+    console.debug("dbDataHandling.js: getDbFromUsername: dbUserName: " + dbUserName)
     return dbUserName
 }
 
 function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
-    /* Please always pass all arguments. Use empty string if need to pass empty argument */
+    /* Create DB query string for this application use-cases
+       Please always pass all arguments. Use empty string if need to pass empty argument */
+
     var strInit = "SELECT rowid, * FROM ";
     var strDatestrIni = " WHERE strftime('%Y-%m', datestring) = '";
     var strDatestrEnd = "' ORDER BY datestring";
@@ -25,7 +34,7 @@ function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
     var fullStr = "";
 
     if( typeof dateFilter === "undefined" || typeof typeFilter === "undefined"){
-        throw "Error: no dateFilter and/or typeFilter passed!"
+        throw "Error: no dateFilter and/or typeFilter passed!\n" + console.trace()
     }
 
     if(mode === 0){//get full db data
@@ -50,7 +59,43 @@ function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
     else if(mode === 5){//get data from time window and type
         return fullStr;
     }
-    else return "error!";
+    else throw "Error: mode/dateFilter/typeFilter condition does not match the available options!\n" + console.trace()
+}
+
+function queryReadDb(db, queryStr, callback){
+    /* Return the object result of a DB query, or optioally pass it to a callback function
+       Should make use of genSqliteQuery() to safely generate the query*/
+
+    db.transaction(function(tx){
+        try{
+            var res = tx.executeSql(queryStr) //run the query
+            if(typeof callback === "undefined"){
+                return res;
+            }
+            else callback(false ,res);
+        }
+        catch(err){
+            if(typeof callback === "undefined"){
+                console.error("Error reading from table exprev: " + err)
+            }
+            else callback(true);
+        }
+    })
+}
+
+function queryWriteDb(db, dataToWrite){
+    /* Write data to the specified DB
+       It does all the job for now */
+}
+
+function query2string(queryInput){
+    /* Format the query result - all fields to strings
+       The queryInput can be generated with queryReadDb() */
+}
+
+function string2query(queryInput){
+    /* Format strings from user input to be saved to db
+       The queryInput can be generated with queryDb() */
 }
 
 function loadDataFromDb(db, yearMonthString){

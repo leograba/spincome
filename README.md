@@ -10,3 +10,5 @@ own way - feedback is welcome, but don't expect me to change ideas easily.
 - Transfer all DB logic to a separate file
 - Make a login kind of stuff work
 - Understand how application icon works
+- Use the right console.something() instead of always console.log() and add file
+and function name
