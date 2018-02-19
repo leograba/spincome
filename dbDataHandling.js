@@ -1,3 +1,4 @@
+/* Database variables */
 var dbName = "leonardoTeste18"
 //var dbName = "leonardo" //for release
 //var dbName = dashboard.username
@@ -6,6 +7,10 @@ var dbVer = "1.0"
 var dbEstSize = 1000000
 
 var dbUserName;
+
+/* Available tables */
+var expRevTableName = "exprev"
+var loginInfoTableName = "loginusers"
 
 function setDbFromUsername(rootObject) {
     /* Set the name of the DB to be accessed
@@ -63,22 +68,20 @@ function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
 }
 
 function queryReadDb(db, queryStr, callback){
-    /* Return the object result of a DB query, or optioally pass it to a callback function
-       Should make use of genSqliteQuery() to safely generate the query*/
+    /* Pass the object result of a DB query to a callback function
+       Should make use of genSqliteQuery() to safely generate the query */
 
+    //console.debug("dbDataHandling: queryReadDb: query string is " + queryStr)
+    //console.debug("dbDataHandling: queryReadDb: db is " + JSON.stringify(db))
     db.transaction(function(tx){
         try{
             var res = tx.executeSql(queryStr) //run the query
-            if(typeof callback === "undefined"){
-                return res;
-            }
-            else callback(false ,res);
+            //var res = tx.executeSql("SELECT * FROM exprev")
+            console.debug("dbDataHandling.js: queryReadDb: passing DB read to callback")
+            callback(false ,JSON.stringify(res.rows.length));
         }
         catch(err){
-            if(typeof callback === "undefined"){
-                console.error("Error reading from table exprev: " + err)
-            }
-            else callback(true);
+            callback(true, err);
         }
     })
 }
