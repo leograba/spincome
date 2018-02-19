@@ -78,7 +78,7 @@ function queryReadDb(db, queryStr, callback){
             var res = tx.executeSql(queryStr) //run the query
             //var res = tx.executeSql("SELECT * FROM exprev")
             console.debug("dbDataHandling.js: queryReadDb: passing DB read to callback")
-            callback(false ,JSON.stringify(res.rows.length));
+            callback(false, res);
         }
         catch(err){
             callback(true, err);
@@ -91,9 +91,31 @@ function queryWriteDb(db, dataToWrite){
        It does all the job for now */
 }
 
-function query2string(queryInput){
+function query2string(queryInput, callback){
     /* Format the query result - all fields to strings
        The queryInput can be generated with queryReadDb() */
+
+    console.log("dbDataHandling.js: query2string: starting conversion")
+    console.log("dbDataHandling.js: query2string: input length: " + queryInput.rows.length)
+    var queryOutput = [];
+    for(var i = 0; i < queryInput.rows.length; i++){
+        var image;
+        if(queryInput.rows.item(i).exptype === 0) image = "images/button_expense.png"
+        else if(queryInput.rows.item(i).exptype === 1) image = "images/button_revenue.png"
+        else if(queryInput.rows.item(i).exptype === 2) image ="images/button_investment.png"
+        else image ="images/button_loan.png"
+        queryOutput.push({  "value": queryInput.rows.item(i).value.toFixed(2),
+                            //"exptype": queryInput.rows.item(i).exptype.toString(),
+                            "exptype": queryInput.rows.item(i).exptype,
+                            "image": image,
+                            "category": queryInput.rows.item(i).category,
+                            "description": queryInput.rows.item(i).description,
+                            //"datestring": queryInput.rows.item(i).datestring.slice(8,10) + "/" + queryInput.rows.item(i).datestring.slice(5,7) + "/" + queryInput.rows.item(i).datestring.slice(2,4),
+                            "datestring": queryInput.rows.item(i).datestring.slice(8,10),
+                            "rowid": queryInput.rows.item(i).rowid
+                          })
+    }
+    console.log("dbDataHandling.js: query2string: output length: " + queryOutput.length)
 }
 
 function string2query(queryInput){
