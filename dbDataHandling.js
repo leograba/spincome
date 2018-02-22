@@ -13,6 +13,7 @@ var dbTableExprevStr =  "CREATE TABLE IF NOT EXISTS exprev(" +
                         "datestring DATE" +
                         ")"
 
+var lastAddedRow;
 var dbUserName;
 
 /* Available tables */
@@ -121,27 +122,40 @@ function queryWriteAddToDb(db, tableName, dataToWrite){
             var res = tx.executeSql("INSERT INTO " + tableName + " VALUES" + howManyProperties,
                           //[d.value, d.exptype, d.category, d.description, d.datestring])
                                     dataToWrite)
-            console.log("dbDataHandling: queryWriteDb: Entry added")
+            console.log("dbDataHandling: queryWriteAddToDb: Entry added")
             console.log("\t" + dataToWrite)
         }
         catch(err){
-            console.error("dbDataHandling: queryWriteDb: error inserting into table exprev: " + err)
+            console.error("dbDataHandling: queryWriteAddToDb: error inserting into table exprev: " + err)
         }
 
         try{
             var res = tx.executeSql("SELECT last_insert_rowid() FROM exprev")
             console.log("dbDataHandling: queryWriteDb: last inserted rowid: " + JSON.stringify(res))
-            return Number(res.insertId) //using this is trouble once start deleting entries!
+            lastAddedRow = Number(res.insertId)
+            return Number(res.insertId) //using this may be trouble once start deleting entries!
         }
         catch(err){
-            console.log("dbDataHandling: queryWriteDb: error getting last inserted rowid: " + err)
+            console.error("dbDataHandling: queryWriteDb: error getting last inserted rowid: " + err)
         }
     })
 }
 
-function queryWriteUpdateDb(db, tableName, dataToWrite){
+function queryUpdateDb(db, tableName, rowId, typeField, dataToWrite){
     /* Update data on the specified DB
-       must receive an array with ordered data to be updated, according to the DB table convention */
+       update a single table field (type) from a specified row ID */
+
+    db.transaction(function(tx){
+        // Update entry - don't care about duplicates right now
+        try{
+            var res = tx.executeSql("UPDATE " + tableName + " SET " + typeField + " = '" + dataToWrite + "' " +
+                                    "WHERE rowid = " + rowId +";")
+            console.log("dbDataHandling: queryUpdateDb: entry updated: " + typeField + "(" + rowId + ")=" + dataToWrite)
+        }
+        catch(err){
+            console.error("dbDataHandling: queryUpdateDb: Error updating table: " + err)
+        }
+    })
 }
 
 function query2string(queryInput, callback){
