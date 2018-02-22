@@ -1,10 +1,17 @@
-/* Database variables */
+/* Database related variables, constants, definitions */
 var dbName = "leonardoTeste18"
 //var dbName = "leonardo" //for release
 //var dbName = dashboard.username
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
+var dbTableExprevStr =  "CREATE TABLE IF NOT EXISTS exprev(" +
+                        "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
+                        "exptype INT(1) DEFAULT '0' NOT NULL, " +
+                        "category CHAR(40), " +
+                        "description CHAR(160), " +
+                        "datestring DATE" +
+                        ")"
 
 var dbUserName;
 
@@ -12,9 +19,21 @@ var dbUserName;
 var expRevTableName = "exprev"
 var loginInfoTableName = "loginusers"
 
+function createConfigureTable(db, tableString){
+    /* Create a table into the DB
+       Should only use the constants defined in this file "dbTable<table>Str" e.g. dbTableExprevStr */
+
+    console.log("Database created: " + db);
+    db.changeVersion("", dbVer) //this is for when the database is created, otherwise has no effect
+    db.transaction(function(tx){
+        // create db using tableString
+        tx.executeSql(tableString)
+    })
+}
+
 function setDbFromUsername(rootObject) {
     /* Set the name of the DB to be accessed
-       Have to be called in every QML that imports this JS library*/
+       Have to be called in every QML that imports this JS library */
 
     dbUserName = rootObject.userName
     console.debug("dbDataHandling.js: setDbFromUsername: dbUserName: " + dbUserName)
@@ -86,7 +105,7 @@ function queryReadDb(db, queryStr, callback){
     })
 }
 
-function queryWriteDb(db, tableName, dataToWrite){
+function queryWriteAddToDb(db, tableName, dataToWrite){
     /* Write data to the specified DB
        must receive an array with ordered data to be saved, according to the DB table convention */
 
@@ -118,6 +137,11 @@ function queryWriteDb(db, tableName, dataToWrite){
             console.log("dbDataHandling: queryWriteDb: error getting last inserted rowid: " + err)
         }
     })
+}
+
+function queryWriteUpdateDb(db, tableName, dataToWrite){
+    /* Update data on the specified DB
+       must receive an array with ordered data to be updated, according to the DB table convention */
 }
 
 function query2string(queryInput, callback){
