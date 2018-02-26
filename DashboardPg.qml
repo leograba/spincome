@@ -6,8 +6,7 @@ import "/dbDataHandling.js" as DataBase
 
 DashboardPage {
     Component.onCompleted: {
-        console.log("Some text here: " + root.userName)
-        DataBase.setDbFromUsername(dashboard)
+        DataBase.setDbFromUsername(root)// must be call whenever the JS is included
     }
 
     loginBtn.onClicked: {
