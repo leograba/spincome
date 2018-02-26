@@ -24,7 +24,7 @@ function createConfigureTable(db, tableString){
     /* Create a table into the DB
        Should only use the constants defined in this file "dbTable<table>Str" e.g. dbTableExprevStr */
 
-    console.log("Database created: " + db);
+    console.debug("dbDataHandling.js: createConfigureTable: database created: " + db);
     db.changeVersion("", dbVer) //this is for when the database is created, otherwise has no effect
     db.transaction(function(tx){
         // create db using tableString
@@ -131,7 +131,7 @@ function queryWriteAddToDb(db, tableName, dataToWrite){
 
         try{
             var res = tx.executeSql("SELECT last_insert_rowid() FROM exprev")
-            console.log("dbDataHandling: queryWriteDb: last inserted rowid: " + JSON.stringify(res))
+            console.debug("dbDataHandling: queryWriteDb: last inserted rowid: " + JSON.stringify(res))
             lastAddedRow = Number(res.insertId)
             return Number(res.insertId) //using this may be trouble once start deleting entries!
         }
@@ -150,7 +150,7 @@ function queryUpdateDb(db, tableName, rowId, typeField, dataToWrite){
         try{
             var res = tx.executeSql("UPDATE " + tableName + " SET " + typeField + " = '" + dataToWrite + "' " +
                                     "WHERE rowid = " + rowId +";")
-            console.log("dbDataHandling: queryUpdateDb: entry updated: " + typeField + "(" + rowId + ")=" + dataToWrite)
+            console.debug("dbDataHandling: queryUpdateDb: entry updated: " + typeField + "(" + rowId + ")=" + dataToWrite)
         }
         catch(err){
             console.error("dbDataHandling: queryUpdateDb: Error updating table: " + err)

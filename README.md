@@ -7,8 +7,11 @@ own way - feedback is welcome, but don't expect me to change ideas easily.
 ## ToDo list
 
 - Data input validation
-- Transfer all DB logic to a separate file
+- Transfer all DB logic to a separate file --> OK for now
 - Make a login kind of stuff work
-- Understand how application icon works
+- Understand how application icon works --> low prio
 - Use the right console.something() instead of always console.log() and add file
 and function name
+- Currently uses the last rowid to position current selection, if I remember
+right. This is a bad idea if entries are removed from the DB.
+- Standardize error handling - throw, console.error(), console.trace(), etc
