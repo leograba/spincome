@@ -37,7 +37,7 @@ function setDbFromUsername(rootObject) {
        Have to be called in every QML that imports this JS library */
 
     dbUserName = rootObject.userName
-    console.debug("dbDataHandling.js: setDbFromUsername: dbUserName: " + dbUserName)
+    console.count("qml: dbDataHandling.js: setDbFromUsername: dbUserName:" + dbUserName + " - called times")
 }
 
 function getDbFromUsername(){

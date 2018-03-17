@@ -13,20 +13,20 @@ ExpenseRevenuePage {
 
     Component.onCompleted: {
         ExpRev.setup(expRevRoot)
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Username at expense revenue page: " + root.userName)
-        /*console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 1:\n\t" + DataBase.genSqliteQuery(0, DataBase.dbName, "", ""));
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 2:\n\t" + DataBase.genSqliteQuery(1, DataBase.dbName, "2018-05", ""));
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 3:\n\t" + DataBase.genSqliteQuery(2, DataBase.dbName, "", ""));
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 4:\n\t" + DataBase.genSqliteQuery(3, DataBase.dbName, "", "2"));
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 5:\n\t" + DataBase.genSqliteQuery(4, DataBase.dbName, "2018-05", "2"));
-        console.debug("Expense.Revenue.Pg.qml: onCompleted: Consultation 6:\n\t" + DataBase.genSqliteQuery(5, DataBase.dbName, "", ""));*/
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Username at expense revenue page: " + root.userName)
+        /*console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 1:\n\t" + DataBase.genSqliteQuery(0, DataBase.dbName, "", ""));
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 2:\n\t" + DataBase.genSqliteQuery(1, DataBase.dbName, "2018-05", ""));
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 3:\n\t" + DataBase.genSqliteQuery(2, DataBase.dbName, "", ""));
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 4:\n\t" + DataBase.genSqliteQuery(3, DataBase.dbName, "", "2"));
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 5:\n\t" + DataBase.genSqliteQuery(4, DataBase.dbName, "2018-05", "2"));
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 6:\n\t" + DataBase.genSqliteQuery(5, DataBase.dbName, "", ""));*/
         DataBase.setDbFromUsername(root) // must be called whenever the JS is included
         db = LocalStorage.openDatabaseSync(ExpRev.dbName, ExpRev.dbVer,
                                                ExpRev.dbDesc, ExpRev.dbEstSize,
                                                ExpRev.createConfigureDb)
         DataBase.queryReadDb(db, DataBase.genSqliteQuery(1, DataBase.expRevTableName, "2018-05", ""), function(err, data){
             if(!err) {
-                console.debug("Expense.Revenue.Pg.qml: onCompleted:  Result of query2string: " + DataBase.query2string(data, function(err, strResult){
+                console.debug("ExpenseRevenuePg.qml: onCompleted:  Result of query2string: " + DataBase.query2string(data, function(err, strResult){
                     if(!err) {
                         var dataToSave = [] //[d.value, d.exptype, d.category, d.description, d.datestring]
                         dataToSave.push(strResult[0].value)
@@ -35,7 +35,7 @@ ExpenseRevenuePage {
                         dataToSave.push(strResult[0].description)
                         dataToSave.push("2018-05-" + strResult[0].datestring)
                         DataBase.queryWriteAddToDb(db, DataBase.expRevTableName, dataToSave)
-                        console.debug("Expense.Revenue.Pg.qml: onCompleted: Last row = " + DataBase.lastAddedRow)
+                        console.debug("ExpenseRevenuePg.qml: onCompleted: Last row = " + DataBase.lastAddedRow)
                         DataBase.queryUpdateDb(db, DataBase.expRevTableName, DataBase.lastAddedRow, "value", "666")
                     }
                 }))
@@ -59,8 +59,8 @@ ExpenseRevenuePage {
 
     // signals
     onMonthButtonClickedSignal: {
-        console.log("Expense.Revenue.Pg.qml: onMonthButtonClicked:" + mth + "clicked")
-        console.debug("Expense.Revenue.Pg.qml: onMonthButtonClicked: User name: " + DataBase.getDbFromUsername())
+        console.log("ExpenseRevenuePg.qml: onMonthButtonClicked: " + mth + " clicked")
+        console.debug("ExpenseRevenuePg.qml: onMonthButtonClicked: User name: " + DataBase.getDbFromUsername())
         ExpRev.monthSel(mth, expRevRoot, db)
     }
     onFinishEditingSomeText: ExpRev.saveChanges(db, cType, cIndex, cVal, expRevRoot)
