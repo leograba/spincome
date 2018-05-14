@@ -11,5 +11,8 @@ DashboardPage {
 
     loginBtn.onClicked: {
         dashboard.state = "login_success"
+        console.log("Username is: " + username.text + " and root username is: " + root.userName)
+        root.userName = username.text
+        DataBase.setDbFromUsername(root)
     }
 }

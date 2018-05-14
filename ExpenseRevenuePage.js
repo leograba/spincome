@@ -1,3 +1,6 @@
+//DataBase = require("/dbDataHandling.js")
+         .import "/dbDataHandling.js" as DataBase
+
 const month = new Array();
 month[0] = "jan";
 month[1] = "feb";
@@ -34,6 +37,8 @@ var dbVer = "1.0"
 var dbEstSize = 1000000
 
 function monthSel(month, rootfrom, db) {
+    /* Open the sheet for the corresponding month/year */
+
     console.debug("ExpenseRevenuePage.js: monthSel: userName is: " + rootfrom.userName)
     rootfrom.header.text = qsTr(rootfrom[month].text + "/" + rootfrom.yearSel.value)
     rootfrom.state = "MSEL"
@@ -46,7 +51,7 @@ function monthSel(month, rootfrom, db) {
         // do nothing
     }
     else{
-        listOfExpRevs.clear()
+        listOfExpRevs.clear() // clear data
         loadDataFromDb(db, yearMonthString)
     }
 
@@ -107,7 +112,7 @@ function loadDataFromDb(db, yearMonthString){
                                          "datestring": res.rows.item(i).datestring.slice(8,10),
                                          "rowid": res.rows.item(i).rowid
                                   })
-                console.debug("ExpenseRevenuePage.js: loadDataFromDb: datestring: " + res.rows.item(i).datestring)
+                //console.debug("ExpenseRevenuePage.js: loadDataFromDb: datestring: " + res.rows.item(i).datestring)
             }
             listOfExpRevs.append({   "value": "",
                                      "exptype": 0,
