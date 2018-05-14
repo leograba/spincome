@@ -1,3 +1,6 @@
+// Act as library
+.pragma library
+
 /* Database related variables, constants, definitions */
 var dbName = "leonardoTeste18"
 //var dbName = "leonardo" //for release
