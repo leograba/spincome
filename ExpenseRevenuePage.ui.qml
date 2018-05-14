@@ -7,6 +7,7 @@ Page {
 
     width: 600
     height: 400
+    property alias gotoLogin: gotoLogin
     property alias expRevRoot: expRevRoot
     property alias expRevListView: expRevListView
 
@@ -237,6 +238,14 @@ Page {
         }
     }
 
+    Button {
+        id: gotoLogin
+        x: 264
+        y: 154
+        text: qsTr("Ir para login")
+        visible: false
+    }
+
     states: [
         State {
             name: "MSEL"
@@ -258,6 +267,39 @@ Page {
 
             PropertyChanges {
                 target: backBtn
+                visible: true
+            }
+
+            PropertyChanges {
+                target: gotoLogin
+                visible: false
+            }
+        },
+        State {
+            name: "nologin"
+            PropertyChanges {
+                target: expRevListView
+                visible: false
+            }
+
+            PropertyChanges {
+                target: yearSel
+                visible: false
+            }
+
+            PropertyChanges {
+                target: monthsGrid
+                visible: false
+            }
+
+            PropertyChanges {
+                target: backBtn
+                visible: true
+            }
+
+            PropertyChanges {
+                target: gotoLogin
+                opacity: 1
                 visible: true
             }
         }

@@ -4,6 +4,7 @@ import QtQuick.LocalStorage 2.0
 import QtQml 2.2
 import "/ExpenseRevenuePage.js" as ExpRev
 import "/dbDataHandling.js" as DataBase
+import "/main.js" as Main
 
 ExpenseRevenuePage {
     property var db: new Object()
@@ -12,6 +13,7 @@ ExpenseRevenuePage {
     signal finishEditingSomeText(string cType, int cIndex, string cVal)
 
     Component.onCompleted: {
+        Main.initialRootState("exprev", expRevRoot)
         ExpRev.setup(expRevRoot)
         console.debug("ExpenseRevenuePg.qml: onCompleted: Username at expense revenue page: " + root.userName)
         /*console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 1:\n\t" + DataBase.genSqliteQuery(0, DataBase.dbName, "", ""));
@@ -20,7 +22,8 @@ ExpenseRevenuePage {
         console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 4:\n\t" + DataBase.genSqliteQuery(3, DataBase.dbName, "", "2"));
         console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 5:\n\t" + DataBase.genSqliteQuery(4, DataBase.dbName, "2018-05", "2"));
         console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 6:\n\t" + DataBase.genSqliteQuery(5, DataBase.dbName, "", ""));*/
-        DataBase.setDbFromUsername(root) // must be called whenever the JS is included
+        //DataBase.setDbFromUsername(root) // must be called whenever the JS is included
+        console.debug("ExpenseRevenuePg.qml: onCompleted: Username after setup:" + DataBase.getDbFromUsername())
         db = LocalStorage.openDatabaseSync(ExpRev.dbName, ExpRev.dbVer,
                                                ExpRev.dbDesc, ExpRev.dbEstSize,
                                                ExpRev.createConfigureDb)
@@ -42,6 +45,9 @@ ExpenseRevenuePage {
             }
         });
     }
+
+    // Go to login page
+    gotoLogin.onClicked: Main.goToLogin()
 
     // selection buttons
     janBt.onClicked: expRevRoot.monthButtonClickedSignal("janBt")

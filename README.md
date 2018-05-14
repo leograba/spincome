@@ -15,3 +15,7 @@ and function name
 - Currently uses the last rowid to position current selection, if I remember
 right. This is a bad idea if entries are removed from the DB.
 - Standardize error handling - throw, console.error(), console.trace(), etc
+- Check Javascript code-behind vs shared library.
+- Using a js as shared library allow to transfer data between JS applications - 
+then an object or something like that can be created to hold login information
+for other tabs
