@@ -21,6 +21,10 @@ function applyRootState(tabName, stateToApply){
     roots[tabName].state = stateToApply
 }
 
+function getRootState(tabName){
+    return roots[tabName].state
+}
+
 function configureSwipe(swp){
     swipe = swp;
 }
