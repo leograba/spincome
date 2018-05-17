@@ -1,20 +1,20 @@
 // Act as library
 .pragma library
 
+// On Linux, DB file at
+// ~/.local/share/qt-quick-first-try/QML/OfflineStorage/Databases/
+
+var LocStorage;
+
 /* Database related variables, constants, definitions */
-var dbName = "leonardoTeste18"
+var dbObj;
+var dbName = "fgenDatabase"
+//var dbName = "leonardoTeste18"
 //var dbName = "leonardo" //for release
 //var dbName = dashboard.username
 var dbDesc = "User based local expense and revenue database"
 var dbVer = "1.0"
 var dbEstSize = 1000000
-var dbTableExprevStr =  "CREATE TABLE IF NOT EXISTS exprev(" +
-                        "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
-                        "exptype INT(1) DEFAULT '0' NOT NULL, " +
-                        "category CHAR(40), " +
-                        "description CHAR(160), " +
-                        "datestring DATE" +
-                        ")"
 
 var lastAddedRow;
 var dbUserName;
@@ -23,31 +23,61 @@ var dbUserName;
 var expRevTableName = "exprev"
 var loginInfoTableName = "loginusers"
 
-function createConfigureTable(db, tableString){
-    /* Create a table into the DB
-       Should only use the constants defined in this file "dbTable<table>Str" e.g. dbTableExprevStr */
-
-    console.debug("dbDataHandling.js: createConfigureTable: database created: " + db);
-    db.changeVersion("", dbVer) //this is for when the database is created, otherwise has no effect
-    db.transaction(function(tx){
-        // create db using tableString
-        tx.executeSql(tableString)
+function createConfigureDb(lcModule){
+    LocStorage = lcModule
+    //console.debug("dbDataHandling.js: createConfigureDb: Opening DB");
+    dbObj = LocStorage.openDatabaseSync(dbName, dbVer, dbDesc, dbEstSize, function(db){
+        db.changeVersion("", dbVer) //this is for when the database is created
+        db.transaction(function(tx){
+            // create table for user accounts
+            tx.executeSql("CREATE TABLE IF NOT EXISTS users(" +
+                          "username CHAR(40) UNIQUE NOT NULL, " +
+                          "firstname CHAR(40), " +
+                          "lastname CHAR(40), " +
+                          "email CHAR(40) NOT NULL, " +
+                          "password CHAR(160) NOT NULL" +
+                          ")")
+        })
+        console.log("dbDataHandling.js: createConfigureDb: database created");
     })
 }
 
-function setDbFromUsername(rootObject) {
-    /* Set the name of the DB to be accessed
-       Have to be called in every QML that imports this JS library */
+function createUserTable(user, callback){
+    /* Create a user table into the DB only if it doesn exist yet */
 
-    dbUserName = rootObject.userName
-    console.count("qml: dbDataHandling.js: setDbFromUsername: dbUserName:" + dbUserName + " - called times")
+    dbObj.transaction(function(tx){
+        // create table using tableString
+        try{
+            tx.executeSql("CREATE TABLE " + user + "(" +
+                          "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
+                          "exptype INT(1) DEFAULT '0' NOT NULL, " +
+                          "category CHAR(40), " +
+                          "description CHAR(160), " +
+                          "datestring DATE" +
+                          ")")
+            console.log("Created table for user: " + user)
+            callback(false); return 0
+        }
+        catch(err){
+            console.error("Error creating table for user: " + user)
+            callback(err); return err
+        }
+    })
 }
 
-function getDbFromUsername(){
-    /* Get the name of the DB to be accessed
+function setUsername(usrname) {
+    /* Set the username, which is also the table with user data
+     */
+
+    dbUserName = usrname
+    console.count("qml: dbDataHandling.js: setUsername: dbUserName:" + dbUserName + " - called times")
+}
+
+function getUsername(){
+    /* Get the username assigned
        For internal usage whenever accessing the DB*/
 
-    console.debug("dbDataHandling.js: getDbFromUsername: dbUserName: " + dbUserName)
+    console.debug("dbDataHandling.js: getUsername: dbUserName: " + dbUserName)
     return dbUserName
 }
 
@@ -90,13 +120,13 @@ function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
     else throw "Error: mode/dateFilter/typeFilter condition does not match the available options!\n" + console.trace()
 }
 
-function queryReadDb(db, queryStr, callback){
+function queryReadDb(queryStr, callback){
     /* Pass the object result of a DB query to a callback function
        Should make use of genSqliteQuery() to safely generate the query */
 
     //console.debug("dbDataHandling: queryReadDb: query string is " + queryStr)
     //console.debug("dbDataHandling: queryReadDb: db is " + JSON.stringify(db))
-    db.transaction(function(tx){
+    dbObj.transaction(function(tx){
         try{
             var res = tx.executeSql(queryStr) //run the query
             //var res = tx.executeSql("SELECT * FROM exprev")
@@ -109,7 +139,7 @@ function queryReadDb(db, queryStr, callback){
     })
 }
 
-function queryWriteAddToDb(db, tableName, dataToWrite){
+function queryWriteAddToDb(tableName, dataToWrite, callback){
     /* Write data to the specified DB
        must receive an array with ordered data to be saved, according to the DB table convention */
 
@@ -119,7 +149,7 @@ function queryWriteAddToDb(db, tableName, dataToWrite){
     }
     howManyProperties += ")"
 
-    db.transaction(function(tx){
+    dbObj.transaction(function(tx){
         // Insert entry - don't care about duplicates right now
         try{
             var res = tx.executeSql("INSERT INTO " + tableName + " VALUES" + howManyProperties,
@@ -129,17 +159,23 @@ function queryWriteAddToDb(db, tableName, dataToWrite){
             console.log("\t" + dataToWrite)
         }
         catch(err){
-            console.error("dbDataHandling: queryWriteAddToDb: error inserting into table exprev: " + err)
+            console.error("dbDataHandling: queryWriteAddToDb: error inserting into table " + tableName + ": " + err)
+            if(typeof callback === "undefined") return err; //if no callback was passed
+            callback(err); return err;
         }
 
         try{
-            var res = tx.executeSql("SELECT last_insert_rowid() FROM exprev")
-            console.debug("dbDataHandling: queryWriteDb: last inserted rowid: " + JSON.stringify(res))
+            var res = tx.executeSql("SELECT last_insert_rowid() FROM " + tableName)
+            console.debug("dbDataHandling: queryWriteAddToDb: last inserted rowid: " + JSON.stringify(res))
             lastAddedRow = Number(res.insertId)
+            if(typeof callback === "undefined") return Number(res.insertId); //if no callback was passed
+            callback(false)
             return Number(res.insertId) //using this may be trouble once start deleting entries!
         }
         catch(err){
-            console.error("dbDataHandling: queryWriteDb: error getting last inserted rowid: " + err)
+            console.error("dbDataHandling: queryWriteAddToDb: error getting last inserted rowid: " + err)
+            if(typeof callback === "undefined") return err; //if no callback was passed
+            callback(err); return err;
         }
     })
 }
