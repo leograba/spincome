@@ -1,7 +1,9 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
+import QtQuick.LocalStorage 2.0
 //import "/ExpenseRevenuePage.js" as ExpRev
 import "/main.js" as Main
+import "/dbDataHandling.js" as DataBase
 
 ApplicationWindow {
     id: root
@@ -13,6 +15,13 @@ ApplicationWindow {
         Main.configureSwipe(swipeView);
         swipeView.currentIndex = tabBar.currentIndex //set in SwipeView after debug
     }
+
+    Component.onCompleted: {
+        // This is a way I found to pass the LocalStorage module to the JS dbDataHandling
+        // Tried to .import QtQuick.LocalStorage 2.0 as LocalStorage but without success
+        DataBase.createConfigureDb(LocalStorage) //Open DB - or create if does not exist yet
+    }
+
     property string userName: "leonardoss"
 
     SwipeView {
