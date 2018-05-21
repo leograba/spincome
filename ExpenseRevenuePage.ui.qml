@@ -293,11 +293,6 @@ Page {
             }
 
             PropertyChanges {
-                target: backBtn
-                visible: true
-            }
-
-            PropertyChanges {
                 target: gotoLogin
                 opacity: 1
                 visible: true
