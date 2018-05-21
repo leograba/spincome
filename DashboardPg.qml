@@ -20,19 +20,16 @@ DashboardPage {
             if(!err && (data.rows.length === 1)){ //username unique not null --> index always 0
                 if(Qt.md5(passwd.text) === data.rows.item(0).password){
                     DataBase.setUsername(data.rows.item(0).username)
-                    Main.applyRootState("dashboard", "login_success")
-                    Main.applyRootState("exprev", "")
+                    Main.stateLoginSuccess()
                     console.debug("DashboardPg.qml: loginBtn.onClicked: Login successful for user: " + data.rows.item(0).username)
                 }
                 else{
-                    Main.applyRootState("dashboard", "login_fail")
-                    Main.applyRootState("exprev", "nologin")
+                    Main.stateLoginFail()
                     console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (bad password) for user: " + data.rows.item(0).username)
                 }
             }
             else{
-                Main.applyRootState("dashboard", "login_fail")
-                Main.applyRootState("exprev", "nologin")
+                Main.stateLoginFail()
                 console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (username not found)")
             }
         })
