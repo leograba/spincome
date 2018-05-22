@@ -374,6 +374,14 @@ Page {
                 target: gridView
                 visible: true
             }
+            PropertyChanges {
+                target: loginBtn
+                text: qsTr("Logout")
+            }
+            PropertyChanges {
+                target: createBtn
+                visible: false
+            }
         },
 
         State {
