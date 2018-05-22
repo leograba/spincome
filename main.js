@@ -10,6 +10,22 @@ var roots = {}
 //var rootStat;
 //var rootStrategy;
 var swipe;
+var loggedIn = false;
+
+function login(){
+    /* Use after a successful login */
+    loggedIn = true
+}
+
+function logout(){
+    /* Use after a successful logout */
+    loggedIn = false
+}
+
+function isLoggedIn(){
+    /* Return the login status */
+    return loggedIn
+}
 
 function initialRootState(tabName, rootTab) {
     /* Hold the objects that contain the state of the tabs

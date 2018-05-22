@@ -11,28 +11,40 @@ DashboardPage {
     }
 
     loginBtn.onClicked: {
-        // ToDo - Should strip special chars from username
-        var queryStr = "SELECT username, password FROM users WHERE username LIKE '" + username.text + "'"
-        DataBase.queryReadDb(queryStr, function(err, data){
-            //console.debug("DashboardPg.qml: loginBtn.onClicked: data is:")
-            //console.debug("\t" + JSON.stringify(data.rows.length))
-            //console.debug("\t" + JSON.stringify(data.rows.item(0)))
-            if(!err && (data.rows.length === 1)){ //username unique not null --> index always 0
-                if(Qt.md5(passwd.text) === data.rows.item(0).password){
-                    DataBase.setUsername(data.rows.item(0).username)
-                    Main.stateLoginSuccess()
-                    console.debug("DashboardPg.qml: loginBtn.onClicked: Login successful for user: " + data.rows.item(0).username)
+
+        if(Main.isLoggedIn()){
+            // ToDo - check all logout stuff
+            console.debug("DashboardPg.qml: loginBtn.onClicked: logout requested")
+            DataBase.setUsername("")
+            Main.logout()
+            Main.stateLoginFail()
+        }
+        else{
+            // ToDo - Should strip special chars from username
+            var queryStr = "SELECT username, password FROM users WHERE username LIKE '" + username.text + "'"
+            DataBase.queryReadDb(queryStr, function(err, data){
+                //console.debug("DashboardPg.qml: loginBtn.onClicked: data is:")
+                //console.debug("\t" + JSON.stringify(data.rows.length))
+                //console.debug("\t" + JSON.stringify(data.rows.item(0)))
+                if(!err && (data.rows.length === 1)){ //username unique not null --> index always 0
+                    if(Qt.md5(passwd.text) === data.rows.item(0).password){
+                        passwd.text = "" //clear the password field on successful login
+                        DataBase.setUsername(data.rows.item(0).username)
+                        Main.login()
+                        Main.stateLoginSuccess()
+                        console.debug("DashboardPg.qml: loginBtn.onClicked: Login successful for user: " + data.rows.item(0).username)
+                    }
+                    else{
+                        Main.stateLoginFail()
+                        console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (bad password) for user: " + data.rows.item(0).username)
+                    }
                 }
                 else{
                     Main.stateLoginFail()
-                    console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (bad password) for user: " + data.rows.item(0).username)
+                    console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (username not found)")
                 }
-            }
-            else{
-                Main.stateLoginFail()
-                console.debug("DashboardPg.qml: loginBtn.onClicked: Login failed (username not found)")
-            }
-        })
+            })
+        }
     }
 
     createBtn.onClicked: {
