@@ -22,8 +22,6 @@ ApplicationWindow {
         DataBase.createConfigureDb(LocalStorage) //Open DB - or create if does not exist yet
     }
 
-    property string userName: "leonardoss"
-
     SwipeView {
         id: swipeView
         anchors.fill: parent

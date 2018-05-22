@@ -39,7 +39,7 @@ var dbEstSize = 1000000
 function monthSel(month, rootfrom, db) {
     /* Open the sheet for the corresponding month/year */
 
-    console.debug("ExpenseRevenuePage.js: monthSel: userName is: " + rootfrom.userName)
+    console.debug("ExpenseRevenuePage.js: monthSel: user name is: TBD")
     rootfrom.header.text = qsTr(rootfrom[month].text + "/" + rootfrom.yearSel.value)
     rootfrom.state = "MSEL"
 

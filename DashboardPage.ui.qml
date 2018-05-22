@@ -102,8 +102,8 @@ Page {
 
     TextField {
         id: username
+        text: ""
         placeholderText: qsTr("nome")
-        text: root.userName
         anchors.right: gridView.left
         anchors.rightMargin: 0
         anchors.top: parent.top

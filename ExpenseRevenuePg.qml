@@ -16,7 +16,6 @@ ExpenseRevenuePage {
         Main.initialRootState("exprev", expRevRoot)
         Main.applyRootState("exprev", "nologin")
         ExpRev.setup(expRevRoot)
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Username at expense revenue page: " + root.userName)
         /*console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 1:\n\t" + DataBase.genSqliteQuery(0, DataBase.dbName, "", ""));
         console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 2:\n\t" + DataBase.genSqliteQuery(1, DataBase.dbName, "2018-05", ""));
         console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 3:\n\t" + DataBase.genSqliteQuery(2, DataBase.dbName, "", ""));
