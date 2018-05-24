@@ -35,6 +35,14 @@ var UNDEF_ROWID = -1
 /* ToDo - use methods to access this variable instead of directly*/
 var lastYearMonth;
 
+function setYearMonth(currentYearMonth){
+    lastYearMonth = currentYearMonth
+}
+
+function getYearMonth(){
+    return lastYearMonth
+}
+
 function monthSel(month, rootfrom, db) {
     /* Open the sheet for the corresponding month/year */
 
@@ -45,17 +53,9 @@ function monthSel(month, rootfrom, db) {
     // load data from current month and year, if not loaded yet
     var monthZeroPadded = (monthBt.indexOf(month)+1).toString()
     while (monthZeroPadded.length < 2) { monthZeroPadded = "0" + monthZeroPadded}
-    var yearMonthString = rootfrom.yearSel.value + "-" + monthZeroPadded
-    if(lastYearMonth === yearMonthString){
-        // do nothing
-    }
-    else{
-        listOfExpRevs.clear() // clear data
-        loadDataFromDb(yearMonthString)
-    }
+    setYearMonth(rootfrom.yearSel.value + "-" + monthZeroPadded)
 
-    // set selected month and year for comparison
-    lastYearMonth = yearMonthString
+    loadDataFromDb(getYearMonth())
 }
 
 function yearMonthSetup(rootfrom){
@@ -84,10 +84,10 @@ function newLineObject(){
     return nl
 }
 
-function loadDataFromDb(yearMonthString){
+function loadDataFromDb(yymmStr){
     /* Uses the DataBase module to load data from the curretly logged-in user */
 
-    DataBase.queryReadDb(DataBase.genSqliteQuery(1, DataBase.getUsername(), yearMonthString, ""), function(err, data){
+    DataBase.queryReadDb(DataBase.genSqliteQuery(1, DataBase.getUsername(), yymmStr, ""), function(err, data){
         console.debug("ExpenseRevenuePage.js: loadDataFromDb: data is: " + JSON.stringify(data))
         if(!err) { // what to do if error happens?
             DataBase.query2string(data, function(err, strResult){
@@ -149,9 +149,9 @@ function createArrayFromInputLine(line){
     d.push(line.category)
     d.push(line.description)
     if(line.datestring){ // this condition may be removed now that current date is being forced on new entry
-        d.push(lastYearMonth + "-" + line.datestring)
+        d.push(getYearMonth() + "-" + line.datestring)
     }
-    else d.push(lastYearMonth + "-01") //Date is required when loading data from db
+    else d.push(getYearMonth() + "-01") //Date is required when loading data from db
     return d
 }
 

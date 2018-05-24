@@ -43,6 +43,9 @@ ExpenseRevenuePage {
 
     onStateChanged: {
         console.debug("ExpenseRevenuePg.qml: onStateChanged: State changed to " + Main.getRootState("exprev"))
+        if(Main.getRootState("exprev") === ""){
+            listOfExpRevs.clear() // clear data
+        }
     }
 
     expRevListView.delegate: Item {
