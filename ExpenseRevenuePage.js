@@ -32,7 +32,7 @@ monthBt[11] = "decBt";
 /* Constants */
 var UNDEF_ROWID = -1
 
-/* ToDo - use methods to access this variable instead of directly*/
+/* Variables*/
 var lastYearMonth;
 
 function setYearMonth(currentYearMonth){
