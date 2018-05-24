@@ -29,12 +29,11 @@ monthBt[9] = "octBt";
 monthBt[10] = "novBt";
 monthBt[11] = "decBt";
 
-var dbName = "leonardoTeste18"
-//var dbName = "leonardo" //for release
-//var dbName = dashboard.username
-var dbDesc = "User based local expense and revenue database"
-var dbVer = "1.0"
-var dbEstSize = 1000000
+/* Constants */
+var UNDEF_ROWID = -1
+
+/* ToDo - use methods to access this variable instead of directly*/
+var lastYearMonth;
 
 function monthSel(month, rootfrom, db) {
     /* Open the sheet for the corresponding month/year */
@@ -52,89 +51,61 @@ function monthSel(month, rootfrom, db) {
     }
     else{
         listOfExpRevs.clear() // clear data
-        loadDataFromDb(db, yearMonthString)
+        loadDataFromDb(yearMonthString)
     }
 
     // set selected month and year for comparison
     lastYearMonth = yearMonthString
 }
 
-function setup(rootfrom){
+function yearMonthSetup(rootfrom){
     //set current year
     var currentDate = new Date()
     rootfrom.yearSel.value = currentDate.getFullYear()
 
     // Highlight current month button
     rootfrom[month[currentDate.getMonth()]+"Bt"].highlighted = true
-
 }
 
-function createConfigureDb(db){
-    console.debug("ExpenseRevenuePage.js: createConfigureDb: database created: " + db);
-    db.changeVersion("", dbVer) //this is for when the database is created
-    db.transaction(function(tx){
-        // create db for expenses and revenues if not exist
-        tx.executeSql("CREATE TABLE IF NOT EXISTS exprev(" +
-                      "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
-                      "exptype INT(1) DEFAULT '0' NOT NULL, " +
-                      "category CHAR(40), " +
-                      "description CHAR(160), " +
-                      "datestring DATE" +
-                      ")")
-    })
-}
-
-function loadDataFromDb(db, yearMonthString){
-    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: listOfExpRevs: \n\t" + JSON.stringify(listOfExpRevs))
-    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: number of ExpRevs: " + JSON.stringify(expRevListView.count))
+function newLineObject(){
+    /* Return object to be appended to list of entries*/
     var currentDate = new Date()
     var cdateStr = currentDate.getDate().toString();
     while (cdateStr.length < 2) { cdateStr = "0" + cdateStr}
-    db.transaction(function(tx){
-        try{
-            //var res = tx.executeSql("SELECT * FROM exprev WHERE strftime('%Y-%m-%d', datestring) BETWEEN '2017-12-01' AND '2017-12-31'")
-            var res = tx.executeSql("SELECT rowid, * FROM exprev " +
-                                    "WHERE strftime('%Y-%m', datestring) = '" + yearMonthString + "' " +
-                                    "ORDER BY datestring")
-            for(var i = 0; i < res.rows.length; i++){
-                var image;
-                if(res.rows.item(i).exptype === 0) image = "images/button_expense.png"
-                else if(res.rows.item(i).exptype === 1) image = "images/button_revenue.png"
-                else if(res.rows.item(i).exptype === 2) image ="images/button_investment.png"
-                else image ="images/button_loan.png"
-                listOfExpRevs.append({   "value": res.rows.item(i).value.toFixed(2),
-                                         //"exptype": res.rows.item(i).exptype.toString(),
-                                         "exptype": res.rows.item(i).exptype,
-                                         "image": image,
-                                         "category": res.rows.item(i).category,
-                                         "description": res.rows.item(i).description,
-                                         //"datestring": res.rows.item(i).datestring.slice(8,10) + "/" + res.rows.item(i).datestring.slice(5,7) + "/" + res.rows.item(i).datestring.slice(2,4),
-                                         "datestring": res.rows.item(i).datestring.slice(8,10),
-                                         "rowid": res.rows.item(i).rowid
-                                  })
-                //console.debug("ExpenseRevenuePage.js: loadDataFromDb: datestring: " + res.rows.item(i).datestring)
-            }
-            listOfExpRevs.append({   "value": "",
-                                     "exptype": 0,
-                                     "image": "images/button_expense.png",
-                                     "category": "",
-                                     "description": "",
-                                     "datestring": cdateStr,//force a date
-                                     "rowid": null
-                              })
-            //listOfExpRevs.sync() // no need here, but needed in worker
-            expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
-            expRevListView.positionViewAtEnd() // this line removes animation when going to last index
-            //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(listOfExpRevs))
-            //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.count))
-            console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.currentIndex))
-            console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.model.get(0)))
-        }
-        catch(err){
-            console.error("ExpenseRevenuePage.js: loadDataFromDb: Error reading from table: " + err)
+    //console.debug("ExpenseRevenuePage.js: newLineObject: date string is: " + cdateStr)
+    var nl = {   "value": "",
+        "exptype": 0,
+        "image": "images/button_expense.png",
+        "category": "",
+        "description": "",
+        "datestring": cdateStr, //force a date
+        "rowid": UNDEF_ROWID
+    }
+    return nl
+}
 
+function loadDataFromDb(yearMonthString){
+    /* Uses the DataBase module to load data from the curretly logged-in user */
+
+    DataBase.queryReadDb(DataBase.genSqliteQuery(1, DataBase.getUsername(), yearMonthString, ""), function(err, data){
+        console.debug("ExpenseRevenuePage.js: loadDataFromDb: data is: " + JSON.stringify(data))
+        if(!err) { // what to do if error happens?
+            DataBase.query2string(data, function(err, strResult){
+                if(!err){
+                    //console.debug("ExpenseRevenuePage.js: loadDataFromDb:  Result of query2string: " + JSON.stringify(strResult))
+                    listOfExpRevs.append(strResult)
+                    listOfExpRevs.append(newLineObject())
+                    //listOfExpRevs.sync() // no need here, but needed in worker
+                    expRevListView.currentIndex = expRevListView.count - 1 //index is unset - jump to last index
+                    expRevListView.positionViewAtEnd() // this line removes animation when going to last index
+                    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(listOfExpRevs))
+                    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.count))
+                    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.currentIndex))
+                    //console.debug("ExpenseRevenuePage.js: loadDataFromDb: " + JSON.stringify(expRevListView.model.get(0)))
+                }
+            })
         }
-    })
+    });
 }
 
 function highlightOnClick(index){
@@ -170,77 +141,59 @@ function revOrExpHandle(index){
     console.debug("ExpenseRevenuePage.js: revOrExpHandle: " + JSON.stringify(expRevListView.model.get(index)))
 }
 
-function saveChanges(db, type, index, value, rootfrom){
-    //console.debug("ExpenseRevenuePage.js: saveChanges: Value to be updated: " + value)
-    //update value and save only if the value have changed
+function createArrayFromInputLine(line){
+    var d = [] //order matters here!
+    //d.rowid = expRevListView.model.get(index).rowid //rowid is handled automatically
+    d.push(line.value)
+    d.push(line.exptype)
+    d.push(line.category)
+    d.push(line.description)
+    if(line.datestring){ // this condition may be removed now that current date is being forced on new entry
+        d.push(lastYearMonth + "-" + line.datestring)
+    }
+    else d.push(lastYearMonth + "-01") //Date is required when loading data from db
+    return d
+}
+
+function typeToIndex(type){
+    /*The type is ordered based on the DB table creation, return the corresponding value*/
+    if(type === "value") return 0
+    else if(type === "exptype") return 1
+    else if(type === "category") return 2
+    else if(type === "description") return 3
+    else if(type === "datestring") return 4
+    else return -1
+}
+
+function saveChanges(type, index, value){
+    /* Update value and save only if the value have changed */
     var lastIndex = expRevListView.model.count - 1
     var currRowid = expRevListView.model.get(index).rowid
     if((expRevListView.model.get(index)[type] === value) && type !== "exptype")
         return //value did not change, no need to update
     else
         expRevListView.model.get(index)[type] = value
-    //console.debug(ExpenseRevenuePage.js: saveChanges: JSON.stringify(expRevListView.model))
-    //console.debug(ExpenseRevenuePage.js: saveChanges: JSON.stringify(expRevListView.model.get(index)))
+    //console.debug("ExpenseRevenuePage.js: saveChanges: " + JSON.stringify(expRevListView.model))
+    //console.debug("ExpenseRevenuePage.js: saveChanges: " + JSON.stringify(expRevListView.model.get(index)))
     //just to make more readable, put the values in separate variables
-    var d = new Object()
-    //d.rowid = expRevListView.model.get(index).rowid //rowid is handled automatically
-    d.value = expRevListView.model.get(index).value
-    d.exptype = expRevListView.model.get(index).exptype
-    d.category = expRevListView.model.get(index).category
-    d.description = expRevListView.model.get(index).description
-    if(expRevListView.model.get(index).datestring){ // this condition may be removed now that current date is being forced on new entry
-        /*d.datestring = "20" + expRevListView.model.get(index).datestring.slice(6,8) + "-" +
-                expRevListView.model.get(index).datestring.slice(3,5) + "-" +
-                expRevListView.model.get(index).datestring.slice(0,2)*/
-        d.datestring = rootfrom.lastYearMonth + "-" + expRevListView.model.get(index).datestring
-    }
-    else d.datestring = rootfrom.lastYearMonth + "-01" //Date is required when loading data from db
-    console.debug("ExpenseRevenuePage.js: saveChanges: Data to be saved:\n" + JSON.stringify(d))
-    if((index === lastIndex) && !currRowid){ //if last index and entry have not been added yet, add entry
+    var d = createArrayFromInputLine(expRevListView.model.get(index))
+    console.debug("ExpenseRevenuePage.js: saveChanges: Data to be saved:\n\t" + JSON.stringify(d))
+    if((index === lastIndex) && currRowid === UNDEF_ROWID){ //if last index and entry have not been added yet, add entry
+        // Not sure using last index is a good idea, or even needed at all
         console.debug("ExpenseRevenuePage.js: saveChanges: New entry: " + index)
         // hey must do some check before adding!
-        db.transaction(function(tx){
-            // Insert entry - don't care about duplicates right now
-            try{
-                var res = tx.executeSql("INSERT INTO exprev VALUES(?, ?, ?, ?, ?)",
-                              [d.value, d.exptype, d.category, d.description, d.datestring])
-                console.log("ExpenseRevenuePage.js: saveChanges: Entry added")
-
+        DataBase.queryWriteAddToDb(DataBase.getUsername(), d, function(err){
+            if(err !== false) console.debug("ExpenseRevenuePage.js: saveChanges: Unable to create new entry in the DB")
+            else{
+                //console.debug("ExpenseRevenuePage.js: saveChanges: last added row id is: " + DataBase.getLastAddedRow())
+                expRevListView.model.setProperty(index, "rowid", Number(DataBase.getLastAddedRow()))
+                //console.debug("ExpenseRevenuePage.js: saveChanges: last added row id is: " + JSON.stringify(expRevListView.model.get(index)))
+                listOfExpRevs.append(newLineObject())
             }
-            catch(err){
-                console.error("ExpenseRevenuePage.js: saveChanges: Error inserting into table exprev: " + err)
-            }
-            try{
-                var res = tx.executeSql("SELECT last_insert_rowid() FROM exprev")
-                expRevListView.model.get(index).rowid = Number(res.insertId)
-                console.debug("ExpenseRevenuePage.js: saveChanges: Last inserted rowid: " + JSON.stringify(res))
-            }
-            catch(err){
-                console.error("ExpenseRevenuePage.js: saveChanges: Error getting last inserted rowid: " + err)
-            }
-            listOfExpRevs.append({   "value": "",
-                                     "exptype": 0,
-                                     "image": "images/button_expense.png",
-                                     "category": "",
-                                     "description": "",
-                                     "datestring": "",
-                                     "rowid": null
-                              })
         })
     }
     else{ // otherwise just update
         console.debug("ExpenseRevenuePage.js: saveChanges: Already placed entry: " + index)
-        db.transaction(function(tx){
-            // Update entry - don't care about duplicates right now
-            try{
-                var res = tx.executeSql("UPDATE exprev SET " + type + " = '" + d[type] + "' " +
-                                        "WHERE rowid = " + currRowid +";")
-                console.log("ExpenseRevenuePage.js: saveChanges: Entry updated")
-            }
-            catch(err){
-                console.error("ExpenseRevenuePage.js: saveChanges: Error inserting into table exprev: " + err)
-            }
-        })
+        DataBase.queryUpdateDb(DataBase.getUsername(), currRowid, type, d[typeToIndex(type)])
     }
-
 }

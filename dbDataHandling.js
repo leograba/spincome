@@ -17,11 +17,7 @@ var dbVer = "1.0"
 var dbEstSize = 1000000
 
 var lastAddedRow;
-var dbUserName;
-
-/* Available tables */
-var expRevTableName = "exprev"
-var loginInfoTableName = "loginusers"
+var dbUserName = null;
 
 function createConfigureDb(lcModule){
     LocStorage = lcModule
@@ -81,6 +77,11 @@ function getUsername(){
     return dbUserName
 }
 
+function getLastAddedRow(){
+    console.debug("dbDataHandling.js: getLastAddedRow: last added row is: " + lastAddedRow)
+    return Number(lastAddedRow) // as a number, since it is stored as a string
+}
+
 function genSqliteQuery(mode, tableName, dateFilter, typeFilter){
     /* Create DB query string for this application use-cases
        Please always pass all arguments. Use empty string if need to pass empty argument */
@@ -125,15 +126,23 @@ function queryReadDb(queryStr, callback){
        Should make use of genSqliteQuery() to safely generate the query */
 
     //console.debug("dbDataHandling: queryReadDb: query string is " + queryStr)
-    //console.debug("dbDataHandling: queryReadDb: db is " + JSON.stringify(db))
+    //console.debug("dbDataHandling: queryReadDb: db is " + JSON.stringify(dbObj))
     dbObj.transaction(function(tx){
         try{
-            var res = tx.executeSql(queryStr) //run the query
-            //var res = tx.executeSql("SELECT * FROM exprev")
+            var resp = tx.executeSql(queryStr) //run the query
+            //var resp = tx.executeSql("SELECT * FROM exprev")
             console.debug("dbDataHandling.js: queryReadDb: passing DB read to callback")
-            callback(false, res);
+            console.debug("dbDataHandling.js: queryReadDb: answer is: " + JSON.stringify(resp))
+            console.debug("dbDataHandling.js: queryReadDb: answer length is: " + JSON.stringify(resp.rows.length))
+            if(typeof resp !== "undefined")
+                callback(false, resp);
+            else{
+                console.debug("dbDataHandling.js: queryReadDb: resp is not defined:" + typeof resp)
+            }
         }
         catch(err){
+            console.error("dbDataHandling.js: queryReadDb: error is: " + err)
+            console.debug("dbDataHandling.js: queryReadDb: query string is " + queryStr)
             callback(true, err);
         }
     })
@@ -167,7 +176,7 @@ function queryWriteAddToDb(tableName, dataToWrite, callback){
         try{
             var res = tx.executeSql("SELECT last_insert_rowid() FROM " + tableName)
             console.debug("dbDataHandling: queryWriteAddToDb: last inserted rowid: " + JSON.stringify(res))
-            lastAddedRow = Number(res.insertId)
+            lastAddedRow = res.insertId
             if(typeof callback === "undefined") return Number(res.insertId); //if no callback was passed
             callback(false)
             return Number(res.insertId) //using this may be trouble once start deleting entries!
@@ -180,11 +189,11 @@ function queryWriteAddToDb(tableName, dataToWrite, callback){
     })
 }
 
-function queryUpdateDb(db, tableName, rowId, typeField, dataToWrite){
+function queryUpdateDb(tableName, rowId, typeField, dataToWrite){
     /* Update data on the specified DB
        update a single table field (type) from a specified row ID */
 
-    db.transaction(function(tx){
+    dbObj.transaction(function(tx){
         // Update entry - don't care about duplicates right now
         try{
             var res = tx.executeSql("UPDATE " + tableName + " SET " + typeField + " = '" + dataToWrite + "' " +
@@ -193,6 +202,7 @@ function queryUpdateDb(db, tableName, rowId, typeField, dataToWrite){
         }
         catch(err){
             console.error("dbDataHandling: queryUpdateDb: Error updating table: " + err)
+            console.debug("dbDataHandling: queryUpdateDb: data is:\n\t" + tableName + "; " + rowId + "; " + typeField + "; " + dataToWrite)
         }
     })
 }

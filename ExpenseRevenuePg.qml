@@ -9,42 +9,12 @@ import "/main.js" as Main
 ExpenseRevenuePage {
     property var db: new Object()
     property var consultation: new Object()
-    property string lastYearMonth
     signal finishEditingSomeText(string cType, int cIndex, string cVal)
 
     Component.onCompleted: {
         Main.initialRootState("exprev", expRevRoot)
         Main.applyRootState("exprev", "nologin")
-        ExpRev.setup(expRevRoot)
-        /*console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 1:\n\t" + DataBase.genSqliteQuery(0, DataBase.dbName, "", ""));
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 2:\n\t" + DataBase.genSqliteQuery(1, DataBase.dbName, "2018-05", ""));
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 3:\n\t" + DataBase.genSqliteQuery(2, DataBase.dbName, "", ""));
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 4:\n\t" + DataBase.genSqliteQuery(3, DataBase.dbName, "", "2"));
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 5:\n\t" + DataBase.genSqliteQuery(4, DataBase.dbName, "2018-05", "2"));
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Consultation 6:\n\t" + DataBase.genSqliteQuery(5, DataBase.dbName, "", ""));*/
-        //DataBase.setUsername(root) // must be called whenever the JS is included
-        console.debug("ExpenseRevenuePg.qml: onCompleted: Username after setup:" + DataBase.getUsername())
-        //DataBase.createConfigureDb()
-        db = LocalStorage.openDatabaseSync(ExpRev.dbName, ExpRev.dbVer,
-                                               ExpRev.dbDesc, ExpRev.dbEstSize,
-                                               ExpRev.createConfigureDb)
-        /*DataBase.queryReadDb(db, DataBase.genSqliteQuery(1, DataBase.expRevTableName, "2018-05", ""), function(err, data){
-            if(!err) {
-                console.debug("ExpenseRevenuePg.qml: onCompleted:  Result of query2string: " + DataBase.query2string(data, function(err, strResult){
-                    if(!err) {
-                        var dataToSave = [] //[d.value, d.exptype, d.category, d.description, d.datestring]
-                        dataToSave.push(strResult[0].value)
-                        dataToSave.push(strResult[0].exptype)
-                        dataToSave.push(strResult[0].category)
-                        dataToSave.push(strResult[0].description)
-                        dataToSave.push("2018-05-" + strResult[0].datestring)
-                        DataBase.queryWriteAddToDb(db, DataBase.expRevTableName, dataToSave)
-                        console.debug("ExpenseRevenuePg.qml: onCompleted: Last row = " + DataBase.lastAddedRow)
-                        DataBase.queryUpdateDb(db, DataBase.expRevTableName, DataBase.lastAddedRow, "value", "666")
-                    }
-                }))
-            }
-        });*/
+        ExpRev.yearMonthSetup(expRevRoot)
     }
 
     // Go to login page
@@ -66,14 +36,12 @@ ExpenseRevenuePage {
 
     // signals
     onMonthButtonClickedSignal: {
-        console.log("ExpenseRevenuePg.qml: onMonthButtonClicked: " + mth + " clicked")
-        console.debug("ExpenseRevenuePg.qml: onMonthButtonClicked: User name: " + DataBase.getUsername())
+        console.log("ExpenseRevenuePg.qml: onMonthButtonClicked: " + mth + " clicked; user name is: " + DataBase.getUsername())
         ExpRev.monthSel(mth, expRevRoot, db)
     }
-    onFinishEditingSomeText: ExpRev.saveChanges(db, cType, cIndex, cVal, expRevRoot)
+    onFinishEditingSomeText: ExpRev.saveChanges(cType, cIndex, cVal, expRevRoot)
 
     onStateChanged: {
-
         console.debug("ExpenseRevenuePg.qml: onStateChanged: State changed to " + Main.getRootState("exprev"))
     }
 
@@ -113,7 +81,7 @@ ExpenseRevenuePage {
                 }
                 onClicked: {
                     ExpRev.revOrExpHandle(index, revOrExpBtnImg)
-                    ExpRev.saveChanges(db, "exptype", index, exptype, expRevRoot)
+                    ExpRev.saveChanges("exptype", index, exptype)
                 }
             }
 

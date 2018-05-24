@@ -15,7 +15,7 @@ DashboardPage {
         if(Main.isLoggedIn()){
             // ToDo - check all logout stuff
             console.debug("DashboardPg.qml: loginBtn.onClicked: logout requested")
-            DataBase.setUsername("")
+            DataBase.setUsername(null)
             Main.logout()
             Main.stateLoginFail()
         }
