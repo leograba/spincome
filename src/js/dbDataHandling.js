@@ -216,10 +216,10 @@ function query2string(queryInput, callback){
 
     for(var i = 0; i < queryInput.rows.length; i++){
         var image;
-        if(queryInput.rows.item(i).exptype === 0) image = "images/button_expense.png"
-        else if(queryInput.rows.item(i).exptype === 1) image = "images/button_revenue.png"
-        else if(queryInput.rows.item(i).exptype === 2) image ="images/button_investment.png"
-        else image ="images/button_loan.png"
+        if(queryInput.rows.item(i).exptype === 0) image = "/images/button_expense.png"
+        else if(queryInput.rows.item(i).exptype === 1) image = "/images/button_revenue.png"
+        else if(queryInput.rows.item(i).exptype === 2) image ="/images/button_investment.png"
+        else image ="/images/button_loan.png"
         queryOutput.push({  "value": queryInput.rows.item(i).value.toFixed(2),
                             //"exptype": queryInput.rows.item(i).exptype.toString(),
                             "exptype": queryInput.rows.item(i).exptype,

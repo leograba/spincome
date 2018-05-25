@@ -1,5 +1,5 @@
 //DataBase = require("/dbDataHandling.js")
-         .import "/dbDataHandling.js" as DataBase
+         .import "/src/js/dbDataHandling.js" as DataBase
 
 const month = new Array();
 month[0] = "jan";
@@ -75,7 +75,7 @@ function newLineObject(){
     //console.debug("ExpenseRevenuePage.js: newLineObject: date string is: " + cdateStr)
     var nl = {   "value": "",
         "exptype": 0,
-        "image": "images/button_expense.png",
+        "image": "/images/button_expense.png",
         "category": "",
         "description": "",
         "datestring": cdateStr, //force a date
@@ -124,19 +124,19 @@ function highlightOnTab(index, isLastCol, reverse){
 function revOrExpHandle(index){
     if(expRevListView.model.get(index).exptype === 0){
         expRevListView.model.get(index).exptype = 1
-        expRevListView.model.get(index).image = "images/button_revenue.png"
+        expRevListView.model.get(index).image = "/images/button_revenue.png"
     }
     else if(expRevListView.model.get(index).exptype === 1){
         expRevListView.model.get(index).exptype = 2
-        expRevListView.model.get(index).image = "images/button_investment.png"
+        expRevListView.model.get(index).image = "/images/button_investment.png"
     }
     else if(expRevListView.model.get(index).exptype === 2){
         expRevListView.model.get(index).exptype = 3
-        expRevListView.model.get(index).image = "images/button_loan.png"
+        expRevListView.model.get(index).image = "/images/button_loan.png"
     }
     else{
         expRevListView.model.get(index).exptype = 0
-        expRevListView.model.get(index).image = "images/button_expense.png"
+        expRevListView.model.get(index).image = "/images/button_expense.png"
     }
     console.debug("ExpenseRevenuePage.js: revOrExpHandle: " + JSON.stringify(expRevListView.model.get(index)))
 }

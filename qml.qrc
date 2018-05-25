@@ -1,25 +1,24 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>DashboardPage.ui.qml</file>
-        <file>ExpenseRevenuePg.qml</file>
-        <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>BudgetPage.ui.qml</file>
-        <file>InvestmentPage.ui.qml</file>
-        <file>StatisticsPage.ui.qml</file>
-        <file>StrategyPage.ui.qml</file>
-        <file>ExpenseRevenueTab.ui.qml</file>
-        <file>ExpenseRevenuePage.js</file>
-        <file>main.cpp</file>
-        <file>ExpenseRevenuePage.ui.qml</file>
         <file>images/button_expense.png</file>
         <file>images/button_investment.png</file>
         <file>images/button_loan.png</file>
         <file>images/button_revenue.png</file>
         <file>images/button_back.png</file>
-        <file>dbDataHandling.js</file>
-        <file>DashboardPg.qml</file>
-        <file>main.js</file>
+        <file>src/main.cpp</file>
+        <file>src/js/dbDataHandling.js</file>
+        <file>src/js/ExpenseRevenuePage.js</file>
+        <file>src/js/main.js</file>
+        <file>src/qml/DashboardPg.qml</file>
+        <file>src/qml/ExpenseRevenuePg.qml</file>
+        <file>src/qml/main.qml</file>
+        <file>src/qml/ExpenseRevenuePage.ui.qml</file>
+        <file>src/qml/BudgetPage.ui.qml</file>
+        <file>src/qml/DashboardPage.ui.qml</file>
+        <file>src/qml/ExpenseRevenueTab.ui.qml</file>
+        <file>src/qml/InvestmentPage.ui.qml</file>
+        <file>src/qml/StatisticsPage.ui.qml</file>
+        <file>src/qml/StrategyPage.ui.qml</file>
     </qresource>
 </RCC>

@@ -53,7 +53,7 @@ Page {
                 anchors.bottomMargin: 12
                 anchors.topMargin: 12
                 anchors.fill: parent
-                source: "images/button_back.png"
+                source: "/images/button_back.png"
                 fillMode: Image.PreserveAspectFit
             }
         }

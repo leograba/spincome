@@ -1,9 +1,9 @@
 import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.LocalStorage 2.0
-//import "/ExpenseRevenuePage.js" as ExpRev
-import "/main.js" as Main
-import "/dbDataHandling.js" as DataBase
+
+import "/src/js/main.js" as Main
+import "/src/js/dbDataHandling.js" as DataBase
 
 ApplicationWindow {
     id: root
@@ -48,6 +48,7 @@ ApplicationWindow {
         }
 */
 
+        /*
         BudgetPage {
         }
 
@@ -59,6 +60,7 @@ ApplicationWindow {
 
         StrategyPage{
         }
+        */
     }
 
     footer: TabBar {

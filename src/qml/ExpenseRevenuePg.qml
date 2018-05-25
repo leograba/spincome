@@ -2,9 +2,9 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.LocalStorage 2.0
 import QtQml 2.2
-import "/ExpenseRevenuePage.js" as ExpRev
-import "/dbDataHandling.js" as DataBase
-import "/main.js" as Main
+import "/src/js/ExpenseRevenuePage.js" as ExpRev
+import "/src/js/dbDataHandling.js" as DataBase
+import "/src/js/main.js" as Main
 
 ExpenseRevenuePage {
     property var db: new Object()
