@@ -20,5 +20,6 @@
         <file>src/qml/InvestmentPage.ui.qml</file>
         <file>src/qml/StatisticsPage.ui.qml</file>
         <file>src/qml/StrategyPage.ui.qml</file>
+        <file>src/js/DashboardPage.js</file>
     </qresource>
 </RCC>

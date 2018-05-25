@@ -25,7 +25,7 @@ ApplicationWindow {
     SwipeView {
         id: swipeView
         anchors.fill: parent
-        currentIndex: 1 //start at tab 2 for debug
+        currentIndex: 0 //start at tab 1 for debug
 
         Loader{
             id:dashboardLoader

@@ -2,6 +2,8 @@ import QtQuick 2.10
 import QtQuick.Controls 2.3
 import QtQuick.LocalStorage 2.0
 import QtQml 2.2
+
+import "/src/js/DashboardPage.js" as Dash
 import "/src/js/dbDataHandling.js" as DataBase
 import "/src/js/main.js" as Main
 
@@ -30,6 +32,7 @@ DashboardPage {
                     if(Qt.md5(passwd.text) === data.rows.item(0).password){
                         passwd.text = "" //clear the password field on successful login
                         DataBase.setUsername(data.rows.item(0).username)
+                        Dash.refreshInfo(dashboardData)
                         Main.login()
                         Main.stateLoginSuccess()
                         console.debug("DashboardPg.qml: loginBtn.onClicked: Login successful for user: " + data.rows.item(0).username)

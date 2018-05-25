@@ -17,6 +17,7 @@ Page {
     property alias loginBtn: loginBtn
     property alias dashboard: dashboard
     property alias username: username
+    property alias dashboardData: dashboardData
 
     property int txtsize: 12
     property double createRatio: 0.35
@@ -39,17 +40,17 @@ Page {
         anchors.top: parent.top
         anchors.topMargin: -1
         cellWidth: width / 2
-        cellHeight: height / 2
+        cellHeight: height / 3
         delegate: Item {
             x: 5
             height: 50
             Column {
                 spacing: 5
                 width: gridView.cellWidth
-                height: gridView.cellHeight / 2
+                height: gridView.cellHeight / 3
                 Rectangle {
                     width: (gridView.cellWidth - 5) * progress
-                    height: gridView.cellHeight / 2
+                    height: gridView.cellHeight / 3
                     color: colorCode
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -61,29 +62,7 @@ Page {
             }
         }
         model: ListModel {
-            ListElement {
-                name: "4500.00"
-                colorCode: "grey"
-                progress: 0.5
-            }
-
-            ListElement {
-                name: "256.02"
-                colorCode: "red"
-                progress: 1
-            }
-
-            ListElement {
-                name: "-32.74"
-                colorCode: "blue"
-                progress: 0.2
-            }
-
-            ListElement {
-                name: "0.00"
-                colorCode: "green"
-                progress: 0
-            }
+            id: dashboardData
         }
     }
 
