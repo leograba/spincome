@@ -14,7 +14,7 @@ right. This is a bad idea if entries are removed from the DB.
 - Standardize error handling - throw, console.error(), console.trace(), etc
 - Check Javascript code-behind vs shared library --> this works well
 - Create a dashboard with the following information:
-* Month and year selection
+for the statistics tab, not the dashboard.
 * Total incomes, expenses, loans and investments
 * How much do I have until the selected date
 * How much do I have invested

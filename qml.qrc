@@ -21,5 +21,6 @@
         <file>src/qml/StatisticsPage.ui.qml</file>
         <file>src/qml/StrategyPage.ui.qml</file>
         <file>src/js/DashboardPage.js</file>
+        <file>images/button_refresh.png</file>
     </qresource>
 </RCC>

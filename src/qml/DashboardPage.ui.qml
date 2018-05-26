@@ -26,6 +26,25 @@ Page {
         text: qsTr("Dashboard")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
+
+        Button {
+            id: rFreshBtn
+            anchors.right: parent.right
+            width: parent.width / 10
+            height: parent.height
+            anchors.rightMargin: 5
+            visible: false
+            //onClicked:
+            Image {
+                anchors.rightMargin: 12
+                anchors.leftMargin: 12
+                anchors.bottomMargin: 12
+                anchors.topMargin: 12
+                anchors.fill: parent
+                source: "/images/button_refresh.png"
+                fillMode: Image.PreserveAspectFit
+            }
+        }
     }
 
     Pane {
@@ -39,68 +58,13 @@ Page {
         anchors.topMargin: 5
         width: parent.width * 0.7
 
-        Label {
-            id: sYearLabel
-            text: qsTr("Ano:")
-            //font.pixelSize: Qt.application.font.pixelSize * 2
-            anchors.top: parent.top
-            anchors.topMargin: -1
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-        }
-
-        SpinBox {
-            id: sYear
-            to: 2100
-            from: 1980
-            anchors.top: parent.top
-            anchors.topMargin: -1
-            anchors.left: sYearLabel.right
-            anchors.leftMargin: 0
-        }
-
-        Label {
-            id: sMonthLabel
-            text: qsTr("Mês:")
-            anchors.top: parent.top
-            anchors.topMargin: -1
-            anchors.left: sYear.right
-            anchors.leftMargin: 0
-        }
-
-        SpinBox {
-            id: sMonth
-            anchors.top: parent.top
-            anchors.topMargin: -1
-            anchors.left: sMonthLabel.right
-            anchors.leftMargin: 0
-        }
-
-        Button {
-            id: rFreshBtn
-            anchors.left: sMonth.right
-            width: parent.width / 10
-            height: sMonth.height
-            anchors.rightMargin: 5
-            //onClicked:
-            Image {
-                anchors.rightMargin: 12
-                anchors.leftMargin: 12
-                anchors.bottomMargin: 12
-                anchors.topMargin: 12
-                anchors.fill: parent
-                source: "/images/button_back.png"
-                fillMode: Image.PreserveAspectFit
-            }
-        }
-
         GridView {
             id: gridView
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 11
             //anchors.right: parent.right
             //anchors.rightMargin: 5
-            anchors.top: sYear.bottom
+            anchors.top: parent.top
             anchors.topMargin: 5
             cellWidth: width / 2
             cellHeight: height / 3
@@ -425,6 +389,10 @@ Page {
             PropertyChanges {
                 target: createBtn
                 visible: false
+            }
+            PropertyChanges {
+                target: rFreshBtn
+                visible: true
             }
         },
 
