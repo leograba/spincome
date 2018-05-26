@@ -28,41 +28,106 @@ Page {
         padding: 10
     }
 
-    GridView {
-        id: gridView
-        x: 175
-        width: parent.width * 0.7
+    Pane {
+        id: yearSelDashboard
         visible: false
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 11
         anchors.right: parent.right
         anchors.rightMargin: 5
         anchors.top: parent.top
-        anchors.topMargin: -1
-        cellWidth: width / 2
-        cellHeight: height / 3
-        delegate: Item {
-            x: 5
-            height: 50
-            Column {
-                spacing: 5
-                width: gridView.cellWidth
-                height: gridView.cellHeight / 3
-                Rectangle {
-                    width: (gridView.cellWidth - 5) * progress
-                    height: gridView.cellHeight / 3
-                    color: colorCode
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-                Text {
-                    text: name
-                    font.bold: true
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+        anchors.topMargin: 5
+        width: parent.width * 0.7
+
+        Label {
+            id: sYearLabel
+            text: qsTr("Ano:")
+            //font.pixelSize: Qt.application.font.pixelSize * 2
+            anchors.top: parent.top
+            anchors.topMargin: -1
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+        }
+
+        SpinBox {
+            id: sYear
+            to: 2100
+            from: 1980
+            anchors.top: parent.top
+            anchors.topMargin: -1
+            anchors.left: sYearLabel.right
+            anchors.leftMargin: 0
+        }
+
+        Label {
+            id: sMonthLabel
+            text: qsTr("Mês:")
+            anchors.top: parent.top
+            anchors.topMargin: -1
+            anchors.left: sYear.right
+            anchors.leftMargin: 0
+        }
+
+        SpinBox {
+            id: sMonth
+            anchors.top: parent.top
+            anchors.topMargin: -1
+            anchors.left: sMonthLabel.right
+            anchors.leftMargin: 0
+        }
+
+        Button {
+            id: rFreshBtn
+            anchors.left: sMonth.right
+            width: parent.width / 10
+            height: sMonth.height
+            anchors.rightMargin: 5
+            //onClicked:
+            Image {
+                anchors.rightMargin: 12
+                anchors.leftMargin: 12
+                anchors.bottomMargin: 12
+                anchors.topMargin: 12
+                anchors.fill: parent
+                source: "/images/button_back.png"
+                fillMode: Image.PreserveAspectFit
             }
         }
-        model: ListModel {
-            id: dashboardData
+
+        GridView {
+            id: gridView
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 11
+            //anchors.right: parent.right
+            //anchors.rightMargin: 5
+            anchors.top: sYear.bottom
+            anchors.topMargin: 5
+            cellWidth: width / 2
+            cellHeight: height / 3
+
+            delegate: Item {
+                x: 5
+                height: 50
+                Column {
+                    spacing: 5
+                    width: gridView.cellWidth
+                    height: gridView.cellHeight / 3
+                    Rectangle {
+                        width: (gridView.cellWidth - 5) * progress
+                        height: gridView.cellHeight / 3
+                        color: colorCode
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Text {
+                        text: name
+                        font.bold: true
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
+            }
+            model: ListModel {
+                id: dashboardData
+            }
         }
     }
 
@@ -83,7 +148,7 @@ Page {
         id: username
         text: ""
         placeholderText: qsTr("nome")
-        anchors.right: gridView.left
+        anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
         anchors.top: parent.top
         anchors.topMargin: 5
@@ -107,7 +172,7 @@ Page {
     TextField {
         id: passwd
         text: qsTr("")
-        anchors.right: gridView.left
+        anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
         anchors.top: username.bottom
         anchors.topMargin: 0
@@ -121,7 +186,7 @@ Page {
         id: loginBtn
         text: qsTr("Login")
         spacing: 5
-        anchors.right: gridView.left
+        anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
         anchors.left: parent.left
         anchors.leftMargin: 5
@@ -133,7 +198,7 @@ Page {
         id: createBtn
         text: qsTr("Criar conta")
         spacing: 5
-        anchors.right: gridView.left
+        anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
         anchors.left: parent.left
         anchors.leftMargin: 5
@@ -350,7 +415,7 @@ Page {
         State {
             name: "login_success"
             PropertyChanges {
-                target: gridView
+                target: yearSelDashboard
                 visible: true
             }
             PropertyChanges {
