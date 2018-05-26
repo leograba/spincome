@@ -26,25 +26,6 @@ Page {
         text: qsTr("Dashboard")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
-
-        Button {
-            id: rFreshBtn
-            anchors.right: parent.right
-            width: parent.width / 10
-            height: parent.height
-            anchors.rightMargin: 5
-            visible: false
-            //onClicked:
-            Image {
-                anchors.rightMargin: 12
-                anchors.leftMargin: 12
-                anchors.bottomMargin: 12
-                anchors.topMargin: 12
-                anchors.fill: parent
-                source: "/images/button_refresh.png"
-                fillMode: Image.PreserveAspectFit
-            }
-        }
     }
 
     Pane {
@@ -389,10 +370,6 @@ Page {
             PropertyChanges {
                 target: createBtn
                 visible: false
-            }
-            PropertyChanges {
-                target: rFreshBtn
-                visible: true
             }
         },
 

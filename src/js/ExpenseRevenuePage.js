@@ -1,5 +1,6 @@
 //DataBase = require("/dbDataHandling.js")
-         .import "/src/js/dbDataHandling.js" as DataBase
+.import "/src/js/dbDataHandling.js" as DataBase
+.import "/src/js/DashboardPage.js" as Dash
 
 const month = new Array();
 month[0] = "jan";
@@ -196,4 +197,5 @@ function saveChanges(type, index, value){
         console.debug("ExpenseRevenuePage.js: saveChanges: Already placed entry: " + index)
         DataBase.queryUpdateDb(DataBase.getUsername(), currRowid, type, d[typeToIndex(type)])
     }
+    Dash.refreshInfo(Dash.getDashModel())
 }

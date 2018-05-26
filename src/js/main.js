@@ -68,6 +68,11 @@ function setSwipeIndex(idx){
     swipe.currentIndex = idx
 }
 
+function getSwipeIndex(){
+    /* Get the current tab information */
+    return swipe.currentIndex
+}
+
 function goToLogin(){
     /* Go specifically to the login tab */
     setSwipeIndex(0)

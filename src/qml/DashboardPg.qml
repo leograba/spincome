@@ -10,6 +10,7 @@ import "/src/js/main.js" as Main
 DashboardPage {
     Component.onCompleted: {
         Main.initialRootState("dashboard", dashboard)
+        Dash.setDashModel(dashboardData)
     }
 
     loginBtn.onClicked: {
@@ -32,7 +33,7 @@ DashboardPage {
                     if(Qt.md5(passwd.text) === data.rows.item(0).password){
                         passwd.text = "" //clear the password field on successful login
                         DataBase.setUsername(data.rows.item(0).username)
-                        Dash.refreshInfo(dashboardData)
+                        Dash.refreshInfo(Dash.getDashModel())
                         Main.login()
                         Main.stateLoginSuccess()
                         console.debug("DashboardPg.qml: loginBtn.onClicked: Login successful for user: " + data.rows.item(0).username)
