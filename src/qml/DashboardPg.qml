@@ -91,7 +91,7 @@ DashboardPage {
                     login.text = ""; login.placeholderText = "Usuário já cadastrado"
                 }
                 else{
-                    DataBase.createUserTable(login.text, function(err){
+                    DataBase.createUserTables(login.text, function(err){
                         if(err !== false){
                             login.text = ""; login.placeholderText = "Usuário já cadastrado"
                         }

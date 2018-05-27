@@ -19,6 +19,9 @@ var dbEstSize = 1000000
 var lastAddedRow;
 var dbUserName = null;
 
+var exprevAffix = "_exprev"
+var investAffix = "_investment"
+
 function createConfigureDb(lcModule){
     LocStorage = lcModule
     //console.debug("dbDataHandling.js: createConfigureDb: Opening DB");
@@ -38,20 +41,27 @@ function createConfigureDb(lcModule){
     })
 }
 
-function createUserTable(user, callback){
+function createUserTables(user, callback){
     /* Create a user table into the DB only if it doesn exist yet */
 
     dbObj.transaction(function(tx){
         // create table using tableString
         try{
-            tx.executeSql("CREATE TABLE " + user + "(" +
+            tx.executeSql("CREATE TABLE " + user + exprevAffix + "(" +
                           "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
                           "exptype INT(1) DEFAULT '0' NOT NULL, " +
                           "category CHAR(40), " +
                           "description CHAR(160), " +
                           "datestring DATE" +
                           ")")
-            console.log("Created table for user: " + user)
+            tx.executeSql("CREATE TABLE " + user + investAffix + "(" +
+                          "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
+                          "exptype INT(1) DEFAULT '0' NOT NULL, " +
+                          "category CHAR(40), " +
+                          "description CHAR(160), " +
+                          "datestring DATE" +
+                          ")")
+            console.log("Created tables for user: " + user)
             callback(false); return 0
         }
         catch(err){
@@ -75,6 +85,14 @@ function getUsername(){
 
     console.debug("dbDataHandling.js: getUsername: dbUserName: " + dbUserName)
     return dbUserName
+}
+
+function getExprevTableName(){
+    return getUsername() + "_exprev"
+}
+
+function getInvestmentTableName(){
+    return getUsername() + "_investment"
 }
 
 function getLastAddedRow(){

@@ -97,7 +97,7 @@ function refreshInfo(mdl, month){
 
     mdl.clear()
     // Get data from current month only
-    var cmonth = DataBase.genSqliteQuery(1, DataBase.getUsername(), getFullYearMonthStr(), "")
+    var cmonth = DataBase.genSqliteQuery(1, DataBase.getExprevTableName(), getFullYearMonthStr(), "")
     //console.debug("DashboardPage.js: refreshInfo: the string is: \n\t" + cmonth)
     DataBase.queryReadDb(cmonth, function(err, data){
         if(!err){
@@ -125,7 +125,7 @@ function refreshInfo(mdl, month){
     })
 
     // Get all available data
-    //var amonth = DataBase.genSqliteQuery(0, DataBase.getUsername(), "", "")
+    //var amonth = DataBase.genSqliteQuery(0, DataBase.getExprevTableName(), "", "")
     //appendInfo(0, 0.4, 7000.00, mdl)
     //appendInfo(4, 0.6, -10000.00, mdl)
 }

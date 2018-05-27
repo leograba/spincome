@@ -88,7 +88,7 @@ function newLineObject(){
 function loadDataFromDb(yymmStr){
     /* Uses the DataBase module to load data from the curretly logged-in user */
 
-    DataBase.queryReadDb(DataBase.genSqliteQuery(1, DataBase.getUsername(), yymmStr, ""), function(err, data){
+    DataBase.queryReadDb(DataBase.genSqliteQuery(1, DataBase.getExprevTableName(), yymmStr, ""), function(err, data){
         console.debug("ExpenseRevenuePage.js: loadDataFromDb: data is: " + JSON.stringify(data))
         if(!err) { // what to do if error happens?
             DataBase.query2string(data, function(err, strResult){
@@ -183,7 +183,7 @@ function saveChanges(type, index, value){
         // Not sure using last index is a good idea, or even needed at all
         console.debug("ExpenseRevenuePage.js: saveChanges: New entry: " + index)
         // hey must do some check before adding!
-        DataBase.queryWriteAddToDb(DataBase.getUsername(), d, function(err){
+        DataBase.queryWriteAddToDb(DataBase.getExprevTableName(), d, function(err){
             if(err !== false) console.debug("ExpenseRevenuePage.js: saveChanges: Unable to create new entry in the DB")
             else{
                 //console.debug("ExpenseRevenuePage.js: saveChanges: last added row id is: " + DataBase.getLastAddedRow())
@@ -195,7 +195,7 @@ function saveChanges(type, index, value){
     }
     else{ // otherwise just update
         console.debug("ExpenseRevenuePage.js: saveChanges: Already placed entry: " + index)
-        DataBase.queryUpdateDb(DataBase.getUsername(), currRowid, type, d[typeToIndex(type)])
+        DataBase.queryUpdateDb(DataBase.getExprevTableName(), currRowid, type, d[typeToIndex(type)])
     }
     Dash.refreshInfo(Dash.getDashModel())
 }
