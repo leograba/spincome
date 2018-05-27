@@ -32,35 +32,35 @@ ApplicationWindow {
             source: "DashboardPg.qml"
         }
 
-/*
-        DashboardPage {
-        }
-*/
-
         Loader{
             id:expRevLoader
             source: "ExpenseRevenuePg.qml"
         }
 
-
-/*
-        ExpenseRevenuePage {
-        }
-*/
-
-        /*
-        BudgetPage {
+        Loader{
+            id:budgetLoader
+            source: "BudgetPage.ui.qml"
         }
 
-        InvestmentPage {
+        Loader{
+            id:investmentLoader
+            source: "InvestmentPage.ui.qml"
         }
 
-        StatisticsPage{
+        Loader{
+            id:statisticsLoader
+            source: "StatisticsPage.ui.qml"
         }
 
-        StrategyPage{
+        Loader{
+            id:strategyLoader
+            source: "StrategyPage.ui.qml"
         }
-        */
+
+        Loader{
+            id:configLoader
+            source: "ConfigPage.ui.qml"
+        }
     }
 
     footer: TabBar {
@@ -84,6 +84,9 @@ ApplicationWindow {
         }
         TabButton {
             text: qsTr("Estratégia")
+        }
+        TabButton {
+            text: qsTr("Configurações")
         }
     }
 }

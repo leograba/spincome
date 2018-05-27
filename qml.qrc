@@ -16,11 +16,11 @@
         <file>src/qml/ExpenseRevenuePage.ui.qml</file>
         <file>src/qml/BudgetPage.ui.qml</file>
         <file>src/qml/DashboardPage.ui.qml</file>
-        <file>src/qml/ExpenseRevenueTab.ui.qml</file>
         <file>src/qml/InvestmentPage.ui.qml</file>
         <file>src/qml/StatisticsPage.ui.qml</file>
         <file>src/qml/StrategyPage.ui.qml</file>
         <file>src/js/DashboardPage.js</file>
         <file>images/button_refresh.png</file>
+        <file>src/qml/ConfigPage.ui.qml</file>
     </qresource>
 </RCC>
