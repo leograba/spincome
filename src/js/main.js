@@ -49,18 +49,21 @@ function stateLogout(){
     /* Set all tabs view to the logout state */
     applyRootState("dashboard", "")
     applyRootState("exprev", "nologin")
+    applyRootState("config", "")
 }
 
 function stateLoginFail(){
     /* Set all tabs view to the state before successful login */
     applyRootState("dashboard", "login_fail")
     applyRootState("exprev", "nologin")
+    applyRootState("config", "")
 }
 
 function stateLoginSuccess(){
     /* Set all tabs view to the state when successful login */
     applyRootState("dashboard", "login_success")
     applyRootState("exprev", "")
+    applyRootState("config", "conf_sel")
 }
 
 function configureSwipe(swp){

@@ -240,9 +240,9 @@ Page {
 
     Button {
         id: gotoLogin
-        x: 264
-        y: 154
         text: qsTr("Ir para login")
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
         visible: false
     }
 

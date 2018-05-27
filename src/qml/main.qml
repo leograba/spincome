@@ -59,7 +59,7 @@ ApplicationWindow {
 
         Loader{
             id:configLoader
-            source: "ConfigPage.ui.qml"
+            source: "ConfigPg.qml"
         }
     }
 
