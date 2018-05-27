@@ -45,6 +45,12 @@ function getRootState(tabName){
     return roots[tabName].state
 }
 
+function stateLogout(){
+    /* Set all tabs view to the logout state */
+    applyRootState("dashboard", "")
+    applyRootState("exprev", "nologin")
+}
+
 function stateLoginFail(){
     /* Set all tabs view to the state before successful login */
     applyRootState("dashboard", "login_fail")

@@ -21,7 +21,7 @@ DashboardPage {
             console.debug("DashboardPg.qml: loginBtn.onClicked: logout requested")
             DataBase.setUsername(null)
             Main.logout()
-            Main.stateLoginFail()
+            Main.stateLogout()
         }
         else{
             // ToDo - Should strip special chars from username
