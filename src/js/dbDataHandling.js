@@ -21,6 +21,7 @@ var dbUserName = null;
 
 var exprevAffix = "_exprev"
 var investAffix = "_investment"
+var configAffix = "_config"
 
 function createConfigureDb(lcModule){
     LocStorage = lcModule
@@ -61,6 +62,13 @@ function createUserTables(user, callback){
                           "description CHAR(160), " +
                           "datestring DATE" +
                           ")")
+            tx.executeSql("CREATE TABLE " + user + configAffix + "(" +
+                          "value DOUBLE(16,2) DEFAULT '0.00' NOT NULL, " +
+                          "exptype INT(1) DEFAULT '0' NOT NULL, " +
+                          "category CHAR(40), " +
+                          "description CHAR(160), " +
+                          "datestring DATE" +
+                          ")")
             console.log("Created tables for user: " + user)
             callback(false); return 0
         }
@@ -88,11 +96,15 @@ function getUsername(){
 }
 
 function getExprevTableName(){
-    return getUsername() + "_exprev"
+    return getUsername() + exprevAffix
 }
 
 function getInvestmentTableName(){
-    return getUsername() + "_investment"
+    return getUsername() + investAffix
+}
+
+function getConfigTableName(){
+    return getUsername() + configAffix
 }
 
 function getLastAddedRow(){
