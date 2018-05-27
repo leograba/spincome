@@ -7,6 +7,22 @@
 
 /* Variables*/
 var dashboardModelData;
+var yearMonth;
+
+function yearMonthSetup(){
+    /* Set year and month in a global variable to be used by other functions
+        set as a string in the format YYYY-mm ready for DB consultation */
+    var currentDate = new Date()
+    var cmonthStr = (currentDate.getMonth() + 1).toString(); // month 0 is actually 1 to SQLite
+    while (cmonthStr.length < 2) { cmonthStr = "0" + cmonthStr}
+    var cyearStr = currentDate.getFullYear().toString()
+
+    yearMonth = cyearStr + "-" + cmonthStr
+}
+
+function getFullYearMonthStr(){
+    return yearMonth
+}
 
 function setDashModel(mdl){
     dashboardModelData = mdl
@@ -75,16 +91,68 @@ function refreshInfo(mdl, month){
 
     console.debug("DashboardPage.js: refreshInfo: Refreshing dashboard information")
 
+    var revenue = 0, expenses = 0, investments = 0, loans = 0;
+    var balance = 0, interestRate = 0, budget = 0;
+    var totalMonth = 0, totalInvested = 0, totalEver = 0;
+
     mdl.clear()
     // Get data from current month only
-    //var cmonth = DataBase.genSqliteQuery(1, DataBase.getUsername(), add here year month string, "")
-
-    /*DataBase.queryReadDb(queryStr, function(err, data){
-
-    })*/
+    var cmonth = DataBase.genSqliteQuery(1, DataBase.getUsername(), getFullYearMonthStr(), "")
+    //console.debug("DashboardPage.js: refreshInfo: the string is: \n\t" + cmonth)
+    DataBase.queryReadDb(cmonth, function(err, data){
+        if(!err){
+            for(var i = 0; i < data.rows.length; i++){
+                if(data.rows.item(i).exptype === 0){ //expense
+                    expenses += data.rows.item(i).value
+                }
+                else if(data.rows.item(i).exptype === 1){ //revenue
+                    revenue += data.rows.item(i).value
+                }
+                else if(data.rows.item(i).exptype === 2){ //investment
+                    investments += data.rows.item(i).value
+                }
+                else if(data.rows.item(i).exptype === 3){ //loan
+                    loans += data.rows.item(i).value
+                }
+            }
+            // Negative values are being disregarded
+            totalMonth = revenue + expenses + investments + loans
+            appendInfo(0, revenue / totalMonth, revenue, mdl)
+            appendInfo(1, expenses / totalMonth, expenses, mdl)
+            appendInfo(2, investments / totalMonth, investments, mdl)
+            appendInfo(3, loans / totalMonth, loans, mdl)
+        }
+    })
 
     // Get all available data
     //var amonth = DataBase.genSqliteQuery(0, DataBase.getUsername(), "", "")
-    appendInfo(0, 0.4, 7000.00, mdl)
-    appendInfo(4, 0.6, -10000.00, mdl)
+    //appendInfo(0, 0.4, 7000.00, mdl)
+    //appendInfo(4, 0.6, -10000.00, mdl)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

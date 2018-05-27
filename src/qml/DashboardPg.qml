@@ -10,6 +10,7 @@ import "/src/js/main.js" as Main
 DashboardPage {
     Component.onCompleted: {
         Main.initialRootState("dashboard", dashboard)
+        Dash.yearMonthSetup()
         Dash.setDashModel(dashboardData)
     }
 
