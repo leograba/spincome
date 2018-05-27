@@ -43,12 +43,12 @@ Page {
             id: gridView
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 11
-            //anchors.right: parent.right
-            //anchors.rightMargin: 5
+            anchors.right: parent.right
+            anchors.left: parent.left
             anchors.top: parent.top
             anchors.topMargin: 5
             cellWidth: width / 2
-            cellHeight: height / 3
+            cellHeight: height / 4
 
             delegate: Item {
                 x: 5
@@ -57,16 +57,44 @@ Page {
                     spacing: 5
                     width: gridView.cellWidth
                     height: gridView.cellHeight / 3
-                    Rectangle {
-                        width: (gridView.cellWidth - 5) * progress
-                        height: gridView.cellHeight / 3
-                        color: colorCode
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-                    Text {
+
+                    Label {
                         text: name
                         font.bold: true
                         anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    Rectangle {
+                        //width: (gridView.cellWidth - 5) * progress
+                        width: (gridView.cellWidth - 5)
+                        height: gridView.cellHeight / 3
+                        //Need translation with rotation
+                        //width: gridView.cellHeight / 3
+                        //height: (gridView.cellWidth - 5)
+                        //rotation: 90
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 1.0
+                                color: colorCode
+                            }
+                            GradientStop {
+                                position: (1 - progress)
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 0.0
+                                color: "transparent"
+                            }
+                        }
+
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        Label {
+                            text: vlue
+                            //font.bold: true
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.bottom: parent.bottom
+                        }
                     }
                 }
             }
