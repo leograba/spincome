@@ -8,6 +8,8 @@ Page {
     height: 400
     property alias configRoot: configRoot
     property alias gotoLogin: gotoLogin
+    property alias expModel: expModel
+    property alias expListView: expListView
     property int btnMargin: 10
     property double btnWidth: confSel.width / 2 - 2 * btnMargin
     property double btnHeight: confSel.height / 2 - 2 * btnMargin
@@ -110,18 +112,129 @@ Page {
         anchors.fill: parent
         visible: false
 
-        /*Label {
-            id: exprevConfHead
-            text: qsTr("Categorias para despesa, receita, investimento e empréstimo")
-            font.pointSize: 15
-        }*/
+        Rectangle {
+            id: addLabels
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: addExpField.height
+            color: "#00000000"
+
+            TextField {
+                id: addExpField
+                placeholderText: qsTr("Nova categoria")
+                width: parent.width / 4 - addExpBtn.width - iconOffset
+                font.pointSize: addSize
+                anchors.left: parent.left
+                anchors.top: parent.top
+            }
+            Button {
+                id: addExpBtn
+                width: height
+                height: addExpField.height - 5
+                anchors.left: addExpField.right
+                anchors.leftMargin: iconOffset
+                anchors.top: parent.top
+                Image {
+                    anchors.rightMargin: iconMargin
+                    anchors.leftMargin: iconMargin
+                    anchors.bottomMargin: iconMargin
+                    anchors.topMargin: iconMargin
+                    anchors.fill: parent
+                    source: iconAddPath
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
+
+            TextField {
+                id: addRevField
+                placeholderText: qsTr("Nova categoria")
+                width: parent.width / 4 - addRevBtn.width - iconOffset
+                font.pointSize: addSize
+                anchors.left: addExpBtn.right
+                anchors.leftMargin: listviewMargin
+                anchors.top: parent.top
+            }
+            Button {
+                id: addRevBtn
+                width: height
+                height: addRevField.height - 5
+                anchors.left: addRevField.right
+                anchors.leftMargin: iconOffset
+                anchors.top: parent.top
+                Image {
+                    anchors.rightMargin: iconMargin
+                    anchors.leftMargin: iconMargin
+                    anchors.bottomMargin: iconMargin
+                    anchors.topMargin: iconMargin
+                    anchors.fill: parent
+                    source: iconAddPath
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
+
+            TextField {
+                id: addInvField
+                placeholderText: qsTr("Nova categoria")
+                width: parent.width / 4 - addInvBtn.width - iconOffset
+                font.pointSize: addSize
+                anchors.left: addRevBtn.right
+                anchors.leftMargin: listviewMargin
+                anchors.top: parent.top
+            }
+            Button {
+                id: addInvBtn
+                width: height
+                height: addInvField.height - 5
+                anchors.left: addInvField.right
+                anchors.leftMargin: iconOffset
+                anchors.top: parent.top
+                Image {
+                    anchors.rightMargin: iconMargin
+                    anchors.leftMargin: iconMargin
+                    anchors.bottomMargin: iconMargin
+                    anchors.topMargin: iconMargin
+                    anchors.fill: parent
+                    source: iconAddPath
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
+
+            TextField {
+                id: addLoanField
+                placeholderText: qsTr("Nova categoria")
+                width: parent.width / 4 - addLoanBtn.width - iconOffset
+                font.pointSize: addSize
+                anchors.left: addInvBtn.right
+                anchors.leftMargin: listviewMargin
+                anchors.top: parent.top
+            }
+            Button {
+                id: addLoanBtn
+                width: height
+                height: addLoanField.height - 5
+                anchors.left: addLoanField.right
+                anchors.leftMargin: iconOffset
+                anchors.top: parent.top
+                Image {
+                    anchors.rightMargin: iconMargin
+                    anchors.leftMargin: iconMargin
+                    anchors.bottomMargin: iconMargin
+                    anchors.topMargin: iconMargin
+                    anchors.fill: parent
+                    source: iconAddPath
+                    fillMode: Image.PreserveAspectFit
+                }
+            }
+        }
+
         ListView {
             id: expListView
             anchors.left: parent.left
             anchors.leftMargin: 0
             anchors.bottom: parent.bottom
             anchors.bottomMargin: btnMargin
-            anchors.top: parent.top
+            anchors.top: addLabels.bottom
             anchors.topMargin: btnMargin
             width: parent.width / 4
 
@@ -135,6 +248,7 @@ Page {
             }
 
             header: Rectangle {
+                id: expHeader
                 anchors.right: parent.right
                 anchors.rightMargin: 0
                 anchors.left: parent.left
@@ -145,31 +259,6 @@ Page {
                     text: qsTr("Despesas")
                     font.bold: true
                     font.pointSize: hdSize
-                }
-                TextField {
-                    id: addExpField
-                    placeholderText: qsTr("Nova categoria")
-                    width: parent.width - addExpBtn.width - iconOffset
-                    font.pointSize: addSize
-                    anchors.left: parent.left
-                    anchors.top: addExpLbl.bottom
-                }
-                Button {
-                    id: addExpBtn
-                    width: height
-                    height: addExpField.height - 5
-                    anchors.left: addExpField.right
-                    anchors.leftMargin: iconOffset
-                    anchors.top: addExpLbl.bottom
-                    Image {
-                        anchors.rightMargin: iconMargin
-                        anchors.leftMargin: iconMargin
-                        anchors.bottomMargin: iconMargin
-                        anchors.topMargin: iconMargin
-                        anchors.fill: parent
-                        source: iconAddPath
-                        fillMode: Image.PreserveAspectFit
-                    }
                 }
             }
 
@@ -186,7 +275,7 @@ Page {
             anchors.leftMargin: listviewMargin
             anchors.bottom: parent.bottom
             anchors.bottomMargin: btnMargin
-            anchors.top: parent.top
+            anchors.top: addLabels.bottom
             anchors.topMargin: btnMargin
             width: parent.width / 4
 
@@ -211,30 +300,6 @@ Page {
                     font.bold: true
                     font.pointSize: hdSize
                 }
-                TextField {
-                    id: addRevField
-                    placeholderText: qsTr("Nova categoria")
-                    width: parent.width - addRevBtn.width - iconOffset
-                    font.pointSize: addSize
-                    anchors.left: parent.left
-                    anchors.top: addRevLbl.bottom
-                }
-                Button {
-                    id: addRevBtn
-                    width: height
-                    height: addRevField.height - 5
-                    anchors.left: addRevField.right
-                    anchors.top: addRevLbl.bottom
-                    Image {
-                        anchors.rightMargin: iconMargin
-                        anchors.leftMargin: iconMargin
-                        anchors.bottomMargin: iconMargin
-                        anchors.topMargin: iconMargin
-                        anchors.fill: parent
-                        source: iconAddPath
-                        fillMode: Image.PreserveAspectFit
-                    }
-                }
             }
 
             model: ListModel {
@@ -248,7 +313,7 @@ Page {
             anchors.leftMargin: listviewMargin
             anchors.bottom: parent.bottom
             anchors.bottomMargin: btnMargin
-            anchors.top: parent.top
+            anchors.top: addLabels.bottom
             anchors.topMargin: btnMargin
             width: parent.width / 4
 
@@ -273,30 +338,6 @@ Page {
                     font.bold: true
                     font.pointSize: hdSize
                 }
-                TextField {
-                    id: addInvField
-                    placeholderText: qsTr("Nova categoria")
-                    width: parent.width - addInvBtn.width - iconOffset
-                    font.pointSize: addSize
-                    anchors.left: parent.left
-                    anchors.top: addInvLbl.bottom
-                }
-                Button {
-                    id: addInvBtn
-                    width: height
-                    height: addInvField.height - 5
-                    anchors.left: addInvField.right
-                    anchors.top: addInvLbl.bottom
-                    Image {
-                        anchors.rightMargin: iconMargin
-                        anchors.leftMargin: iconMargin
-                        anchors.bottomMargin: iconMargin
-                        anchors.topMargin: iconMargin
-                        anchors.fill: parent
-                        source: iconAddPath
-                        fillMode: Image.PreserveAspectFit
-                    }
-                }
             }
 
             model: ListModel {
@@ -310,7 +351,7 @@ Page {
             anchors.leftMargin: listviewMargin
             anchors.bottom: parent.bottom
             anchors.bottomMargin: btnMargin
-            anchors.top: parent.top
+            anchors.top: addLabels.bottom
             anchors.topMargin: btnMargin
             width: parent.width / 4
 
@@ -334,30 +375,6 @@ Page {
                     text: qsTr("Empréstimos")
                     font.bold: true
                     font.pointSize: hdSize
-                }
-                TextField {
-                    id: addLoanField
-                    placeholderText: qsTr("Nova categoria")
-                    width: parent.width - addLoanBtn.width - iconOffset
-                    font.pointSize: addSize
-                    anchors.left: parent.left
-                    anchors.top: addLoanLbl.bottom
-                }
-                Button {
-                    id: addLoanBtn
-                    width: height
-                    height: addLoanField.height - 5
-                    anchors.left: addLoanField.right
-                    anchors.top: addLoanLbl.bottom
-                    Image {
-                        anchors.rightMargin: iconMargin
-                        anchors.leftMargin: iconMargin
-                        anchors.bottomMargin: iconMargin
-                        anchors.topMargin: iconMargin
-                        anchors.fill: parent
-                        source: iconAddPath
-                        fillMode: Image.PreserveAspectFit
-                    }
                 }
             }
 
