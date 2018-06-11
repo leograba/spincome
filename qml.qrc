@@ -23,5 +23,6 @@
         <file>images/button_refresh.png</file>
         <file>src/qml/ConfigPage.ui.qml</file>
         <file>src/qml/ConfigPg.qml</file>
+        <file>images/button_delete.png</file>
     </qresource>
 </RCC>
