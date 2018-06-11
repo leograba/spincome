@@ -6,6 +6,14 @@ Page {
 
     width: 600
     height: 400
+    property alias addLoanBtn: addLoanBtn
+    property alias addLoanField: addLoanField
+    property alias addInvBtn: addInvBtn
+    property alias addInvField: addInvField
+    property alias addRevBtn: addRevBtn
+    property alias addRevField: addRevField
+    property alias addExpBtn: addExpBtn
+    property alias addExpField: addExpField
     property alias configRoot: configRoot
     property alias gotoLogin: gotoLogin
     property alias expModel: expModel
@@ -120,13 +128,22 @@ Page {
             height: addExpField.height
             color: "#00000000"
 
+            Label {
+                id: addExpLbl
+                width: parent.width / 4
+                anchors.left: parent.left
+                text: qsTr("Despesas")
+                font.bold: true
+                font.pointSize: hdSize
+            }
+
             TextField {
                 id: addExpField
                 placeholderText: qsTr("Nova categoria")
-                width: parent.width / 4 - addExpBtn.width - iconOffset
+                width: parent.width / 4 - addExpBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: parent.left
-                anchors.top: parent.top
+                anchors.top: addExpLbl.bottom
             }
             Button {
                 id: addExpBtn
@@ -134,7 +151,7 @@ Page {
                 height: addExpField.height - 5
                 anchors.left: addExpField.right
                 anchors.leftMargin: iconOffset
-                anchors.top: parent.top
+                anchors.top: addExpLbl.bottom
                 Image {
                     anchors.rightMargin: iconMargin
                     anchors.leftMargin: iconMargin
@@ -146,14 +163,24 @@ Page {
                 }
             }
 
+            Label {
+                id: addRevLbl
+                width: parent.width / 4
+                anchors.left: addExpBtn.right
+                anchors.leftMargin: listviewMargin
+                text: qsTr("Receitas")
+                font.bold: true
+                font.pointSize: hdSize
+            }
+
             TextField {
                 id: addRevField
                 placeholderText: qsTr("Nova categoria")
-                width: parent.width / 4 - addRevBtn.width - iconOffset
+                width: parent.width / 4 - addRevBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addExpBtn.right
                 anchors.leftMargin: listviewMargin
-                anchors.top: parent.top
+                anchors.top: addRevLbl.bottom
             }
             Button {
                 id: addRevBtn
@@ -161,7 +188,7 @@ Page {
                 height: addRevField.height - 5
                 anchors.left: addRevField.right
                 anchors.leftMargin: iconOffset
-                anchors.top: parent.top
+                anchors.top: addRevLbl.bottom
                 Image {
                     anchors.rightMargin: iconMargin
                     anchors.leftMargin: iconMargin
@@ -173,14 +200,24 @@ Page {
                 }
             }
 
+            Label {
+                id: addInvLbl
+                width: parent.width / 4
+                anchors.left: addRevBtn.right
+                anchors.leftMargin: listviewMargin
+                text: qsTr("Investimentos")
+                font.bold: true
+                font.pointSize: hdSize
+            }
+
             TextField {
                 id: addInvField
                 placeholderText: qsTr("Nova categoria")
-                width: parent.width / 4 - addInvBtn.width - iconOffset
+                width: parent.width / 4 - addInvBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addRevBtn.right
                 anchors.leftMargin: listviewMargin
-                anchors.top: parent.top
+                anchors.top: addInvLbl.bottom
             }
             Button {
                 id: addInvBtn
@@ -188,7 +225,7 @@ Page {
                 height: addInvField.height - 5
                 anchors.left: addInvField.right
                 anchors.leftMargin: iconOffset
-                anchors.top: parent.top
+                anchors.top: addInvLbl.bottom
                 Image {
                     anchors.rightMargin: iconMargin
                     anchors.leftMargin: iconMargin
@@ -200,14 +237,24 @@ Page {
                 }
             }
 
+            Label {
+                id: addLoanLbl
+                width: parent.width / 4
+                anchors.left: addInvBtn.right
+                anchors.leftMargin: listviewMargin
+                text: qsTr("Empréstimos")
+                font.bold: true
+                font.pointSize: hdSize
+            }
+
             TextField {
                 id: addLoanField
                 placeholderText: qsTr("Nova categoria")
-                width: parent.width / 4 - addLoanBtn.width - iconOffset
+                width: parent.width / 4 - addLoanBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addInvBtn.right
                 anchors.leftMargin: listviewMargin
-                anchors.top: parent.top
+                anchors.top: addLoanLbl.bottom
             }
             Button {
                 id: addLoanBtn
@@ -215,7 +262,7 @@ Page {
                 height: addLoanField.height - 5
                 anchors.left: addLoanField.right
                 anchors.leftMargin: iconOffset
-                anchors.top: parent.top
+                anchors.top: addLoanLbl.bottom
                 Image {
                     anchors.rightMargin: iconMargin
                     anchors.leftMargin: iconMargin
@@ -239,34 +286,10 @@ Page {
             width: parent.width / 4
 
             focus: true
-            highlight: Rectangle {
-                color: "grey"
-            }
-            highlightFollowsCurrentItem: true
-            headerPositioning: ListView.PullBackHeader
-            ScrollBar.vertical: ScrollBar {
-            }
-
-            header: Rectangle {
-                id: expHeader
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Label {
-                    id: addExpLbl
-                    width: parent.width
-                    text: qsTr("Despesas")
-                    font.bold: true
-                    font.pointSize: hdSize
-                }
-            }
 
             model: ListModel {
                 id: expModel
             }
-
-            //delegate:
         }
 
         ListView {
@@ -280,27 +303,6 @@ Page {
             width: parent.width / 4
 
             focus: true
-            highlight: Rectangle {
-                color: "grey"
-            }
-            highlightFollowsCurrentItem: true
-            headerPositioning: ListView.PullBackHeader
-            ScrollBar.vertical: ScrollBar {
-            }
-
-            header: Rectangle {
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Label {
-                    id: addRevLbl
-                    width: parent.width
-                    text: qsTr("Receitas")
-                    font.bold: true
-                    font.pointSize: hdSize
-                }
-            }
 
             model: ListModel {
                 id: revModel
@@ -318,27 +320,6 @@ Page {
             width: parent.width / 4
 
             focus: true
-            highlight: Rectangle {
-                color: "grey"
-            }
-            highlightFollowsCurrentItem: true
-            headerPositioning: ListView.PullBackHeader
-            ScrollBar.vertical: ScrollBar {
-            }
-
-            header: Rectangle {
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Label {
-                    id: addInvLbl
-                    width: parent.width
-                    text: qsTr("Investimentos")
-                    font.bold: true
-                    font.pointSize: hdSize
-                }
-            }
 
             model: ListModel {
                 id: invModel
@@ -356,27 +337,6 @@ Page {
             width: parent.width / 4
 
             focus: true
-            highlight: Rectangle {
-                color: "grey"
-            }
-            highlightFollowsCurrentItem: true
-            headerPositioning: ListView.PullBackHeader
-            ScrollBar.vertical: ScrollBar {
-            }
-
-            header: Rectangle {
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                Label {
-                    id: addLoanLbl
-                    width: parent.width
-                    text: qsTr("Empréstimos")
-                    font.bold: true
-                    font.pointSize: hdSize
-                }
-            }
 
             model: ListModel {
                 id: loanModel
