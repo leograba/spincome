@@ -34,7 +34,7 @@ Page {
     header: Label {
         id: expRevHeader
         //width: parent.width - 250
-        text: qsTr("Despesas e receitas")
+        text: qsTr("Expenses and revenues")
         wrapMode: Text.WordWrap
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
@@ -74,7 +74,7 @@ Page {
             id: janBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Janeiro")
+            text: qsTr("January")
             //onClicked: expRevRoot.monthBtnClickedSignal("jan")
         }
 
@@ -82,77 +82,77 @@ Page {
             id: febBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Fevereiro")
+            text: qsTr("February")
         }
 
         Button {
             id: marBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Março")
+            text: qsTr("March")
         }
 
         Button {
             id: aprBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Abril")
+            text: qsTr("April")
         }
 
         Button {
             id: mayBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Maio")
+            text: qsTr("May")
         }
 
         Button {
             id: junBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Junho")
+            text: qsTr("June")
         }
 
         Button {
             id: julBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Julho")
+            text: qsTr("July")
         }
 
         Button {
             id: augBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Agosto")
+            text: qsTr("August")
         }
 
         Button {
             id: sepBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Setembro")
+            text: qsTr("September")
         }
 
         Button {
             id: octBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Outubro")
+            text: qsTr("October")
         }
 
         Button {
             id: novBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Novembro")
+            text: qsTr("November")
         }
 
         Button {
             id: decBt
             width: (parent.width / 4 - parent.spacing)
             height: (parent.height / 3 - parent.spacing)
-            text: qsTr("Dezembro")
+            text: qsTr("December")
         }
     }
 
@@ -191,7 +191,8 @@ Page {
                 id: howMuchHd
                 width: 0.17 * parent.width - parent.spacing
                        - 33 //30 is to make up to the revOrExpBtn
-                text: qsTr("Valor")
+                //: Value as in "how much"
+                text: qsTr("Value")
                 activeFocusOnPress: false
                 activeFocusOnTab: false
             }
@@ -199,7 +200,8 @@ Page {
             TextField {
                 id: revOrExpBtnHd
                 width: 33
-                text: qsTr("Tipo")
+                //: Either expense, revenue, loan or investment
+                text: qsTr("Type")
                 activeFocusOnPress: false
                 activeFocusOnTab: false
             }
@@ -207,7 +209,8 @@ Page {
             TextField {
                 id: catgHd
                 width: 0.18 * parent.width - parent.spacing
-                text: qsTr("Categoria")
+                //: The type of expense, revenue, etc such as "medical" or "salary"
+                text: qsTr("Category")
                 activeFocusOnPress: false
                 activeFocusOnTab: false
             }
@@ -215,7 +218,7 @@ Page {
             TextField {
                 id: descpHd
                 width: 0.51 * parent.width - parent.spacing
-                text: qsTr("Descrição")
+                text: qsTr("Description")
                 activeFocusOnPress: false
                 activeFocusOnTab: false
             }
@@ -223,7 +226,8 @@ Page {
             TextField {
                 id: dateHd
                 width: 0.14 * parent.width - parent.spacing
-                text: qsTr("Dia")
+                //: Not exactly "date" since month and year are predetermined
+                text: qsTr("Day")
                 activeFocusOnPress: false
                 activeFocusOnTab: false
             }
@@ -240,7 +244,7 @@ Page {
 
     Button {
         id: gotoLogin
-        text: qsTr("Ir para login")
+        text: qsTr("Go to login")
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         visible: false

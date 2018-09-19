@@ -64,7 +64,7 @@ DashboardPage {
         // ToDo - validate data before adding to DB
         if(login.text) dataToSave.push(login.text)
         else{
-            login.placeholderText = "Preenchimento obrigatório"
+            login.placeholderText = qsTr("Mandatory field")
             validationOk = 1
         }
 
@@ -73,13 +73,13 @@ DashboardPage {
 
         if(email.text) dataToSave.push(email.text)
         else{
-            email.placeholderText = "Preenchimento obrigatório"
+            email.placeholderText = qsTr("Mandatory field")
             validationOk = 1
         }
 
         if(Qt.md5(pwd.text) === Qt.md5(pwdConfirm.text)) dataToSave.push(Qt.md5(pwd.text))
         else{
-            pwdConfirm.text = ""; pwdConfirm.placeholderText = "Senha não confere, digite novamente"
+            pwdConfirm.text = ""; pwdConfirm.placeholderText = qsTr("Password does not match, try again")
             validationOk = 1
         }
         //console.debug("DashboardPg.qml: createSubmit.onClicked: data to be saved is: " + JSON.stringify(dataToSave))
@@ -88,12 +88,12 @@ DashboardPage {
             DataBase.queryWriteAddToDb("users", dataToSave, function(err){
                 //console.debug("DashboardPg.qml: createSubmit.onClicked: error creating user: " + err)
                 if(err !== false){ // Check if insertion ok --> error if user already exist
-                    login.text = ""; login.placeholderText = "Usuário já cadastrado"
+                    login.text = ""; login.placeholderText = qsTr("User already exist")
                 }
                 else{
                     DataBase.createUserTables(login.text, function(err){
                         if(err !== false){
-                            login.text = ""; login.placeholderText = "Usuário já cadastrado"
+                            login.text = ""; login.placeholderText = qsTr("User already exist")
                         }
                         else{
                             Main.applyRootState("dashboard", "account_created")

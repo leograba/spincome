@@ -38,41 +38,42 @@ function appendInfo(type, ratio, val, mdl){
     var d = {vlue: String(val), progress: ratio};
     switch(type){
     case 0:
-        d.name = qsTr("Receita")
+        d.name = qsTr("Revenue")
         d.colorCode = "green"
         break
     case 1:
-        d.name = qsTr("Despesa")
+        d.name = qsTr("Expense")
         d.colorCode = "red"
         break
     case 2:
-        d.name = qsTr("Investimento")
+        d.name = qsTr("Investment")
         d.colorCode = "blue"
         break
     case 3:
-        d.name = qsTr("Empréstimo")
+        d.name = qsTr("Loan")
         d.colorCode = "orange"
         break
     case 4:
-        d.name = qsTr("Saldo Total")
+        d.name = qsTr("Balance")
         if(val >= 0)
             d.colorCode = "green"
         else
             d.colorCode = "red"
         break
     case 5:
-        d.name = qsTr("Investimento Total")
+        d.name = qsTr("Total Invested")
         d.colorCode = "blue"
         break
     case 6:
-        d.name = qsTr("Retorno de Investimento")
+        //: This is the return of investment rate as a percentage
+        d.name = qsTr("Return of Investment")
         if(val >= 0)
             d.colorCode = "green"
         else
             d.colorCode = "red"
         break
     case 7:
-        d.name = qsTr("Despesa/Orçamento")
+        d.name = qsTr("Expense / Budget")
         if(val >= 0)
             d.colorCode = "green"
         else

@@ -6,13 +6,14 @@ Page {
     height: 400
 
     header: Label {
-        text: qsTr("Orçamento")
+        text: qsTr("Budget")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
     }
 
     Label {
-        text: qsTr("Este será o orçamento")
+        //: Work-in-progress notice
+        text: qsTr("Work in place - This will be the budget")
         anchors.centerIn: parent
     }
 }

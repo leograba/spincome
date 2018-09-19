@@ -68,25 +68,32 @@ ApplicationWindow {
         currentIndex: swipeView.currentIndex
 
         TabButton {
+            //: The dashboard tab
             text: qsTr("Dashboard")
         }
         TabButton {
-            text: qsTr("Despesas e receitas")
+            //: Tab to manage money incomes and spending
+            text: qsTr("Revenues and Expenses")
         }
         TabButton {
-            text: qsTr("Orçamento")
+            //: Expected revenues and expenses
+            text: qsTr("Budget")
         }
         TabButton {
-            text: qsTr("Investimentos")
+            //: Any invesments such as stock exchange, treasury, etc
+            text: qsTr("Investments")
         }
         TabButton {
-            text: qsTr("Estatísticas")
+            //: Statistics about past revenues, expenses and investments, and others
+            text: qsTr("Statistics")
         }
         TabButton {
-            text: qsTr("Estratégia")
+            //: Investment strategy, it is similar to bugdet
+            text: qsTr("Strategy")
         }
         TabButton {
-            text: qsTr("Configurações")
+            //: System settings, account settings, etc
+            text: qsTr("Settings")
         }
     }
 }

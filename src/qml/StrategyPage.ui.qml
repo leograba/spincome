@@ -6,13 +6,13 @@ Page {
     height: 400
 
     header: Label {
-        text: qsTr("Planejamento de Alocações")
+        text: qsTr("Investment Allocation Plan")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
     }
 
     Label {
-        text: qsTr("Este será o planejamento de alocações")
+        text: qsTr("Work in place - this will be the investment allocation manager")
         anchors.centerIn: parent
     }
 }

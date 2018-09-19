@@ -8,13 +8,13 @@ Page {
     contentWidth: 2
 
     header: Label {
-        text: qsTr("Estatísticas")
+        text: qsTr("Statistics")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
     }
 
     Label {
-        text: qsTr("Página de estatísticas")
+        text: qsTr("Statistics page")
         anchors.verticalCenterOffset: -131
         anchors.horizontalCenterOffset: -201
         anchors.centerIn: parent
@@ -25,7 +25,7 @@ Page {
         x: 41
         y: 58
         color: "#2f39eb"
-        text: qsTr("Ola natalia")
+        text: qsTr("Just some test")
         font.pixelSize: 40
     }
 
@@ -33,7 +33,7 @@ Page {
         id: checkBox
         x: 31
         y: 105
-        text: qsTr("Te amo")
+        text: qsTr("Another test")
         onClicked: {
             if (checkBox.checked) {
                 dial.enabled = false
@@ -48,7 +48,7 @@ Page {
         id: checkBox1
         x: 31
         y: 189
-        text: qsTr("Te odeio")
+        text: qsTr("Lorem Ipsum")
         font.pointSize: 40
         font.capitalization: Font.AllLowercase
     }
@@ -82,3 +82,8 @@ Page {
         }
     }
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

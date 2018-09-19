@@ -108,7 +108,8 @@ Page {
         id: userLabel
         height: 42
         width: 70
-        text: qsTr("Usuário:")
+        //: label for the user name used for login
+        text: qsTr("User:")
         anchors.top: parent.top
         anchors.topMargin: 5
         anchors.left: parent.left
@@ -120,7 +121,7 @@ Page {
     TextField {
         id: username
         text: ""
-        placeholderText: qsTr("nome")
+        placeholderText: qsTr("name")
         anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
         anchors.top: parent.top
@@ -133,7 +134,7 @@ Page {
         id: passwdLabel
         height: 42
         width: 70
-        text: qsTr("Senha:")
+        text: qsTr("Password:")
         anchors.top: userLabel.bottom
         anchors.topMargin: 0
         anchors.left: parent.left
@@ -169,7 +170,7 @@ Page {
 
     Button {
         id: createBtn
-        text: qsTr("Criar conta")
+        text: qsTr("Create Account")
         spacing: 5
         anchors.right: yearSelDashboard.left
         anchors.rightMargin: 0
@@ -193,7 +194,8 @@ Page {
 
         Label {
             id: createheader
-            text: qsTr("Crie sua conta")
+            //: Header for the "Create Account" menu
+            text: qsTr("Create your account")
             anchors.horizontalCenter: parent.horizontalCenter
             font.bold: true
             font.pointSize: 15
@@ -203,7 +205,7 @@ Page {
 
         Label {
             id: firstNameLabel
-            text: qsTr("Primeiro Nome")
+            text: qsTr("First Name")
             width: parent.width * createRatio
             font.pointSize: txtsize
             anchors.top: createheader.bottom
@@ -214,7 +216,7 @@ Page {
 
         TextField {
             id: firstName
-            placeholderText: qsTr("e.g. Arlindo")
+            placeholderText: qsTr("e.g. John")
             width: parent.width * (1 - createRatio)
             anchors.top: createheader.bottom
             anchors.topMargin: 2
@@ -224,7 +226,7 @@ Page {
 
         Label {
             id: lastNameLabel
-            text: qsTr("Último Nome")
+            text: qsTr("Last Name")
             width: parent.width * createRatio
             font.pointSize: txtsize
             anchors.top: firstNameLabel.bottom
@@ -235,7 +237,7 @@ Page {
 
         TextField {
             id: lastName
-            placeholderText: qsTr("e.g. Pinto")
+            placeholderText: qsTr("e.g. Smith")
             width: parent.width * (1 - createRatio)
             anchors.top: firstNameLabel.bottom
             anchors.topMargin: 2
@@ -245,7 +247,7 @@ Page {
 
         Label {
             id: loginLabel
-            text: qsTr("Usuário / Login")
+            text: qsTr("User / Login")
             width: parent.width * createRatio
             font.pointSize: txtsize
             anchors.top: lastNameLabel.bottom
@@ -256,7 +258,7 @@ Page {
 
         TextField {
             id: login
-            placeholderText: qsTr("Nome de usuário")
+            placeholderText: qsTr("Username")
             width: parent.width * (1 - createRatio)
             anchors.top: lastNameLabel.bottom
             anchors.topMargin: 2
@@ -277,7 +279,7 @@ Page {
 
         TextField {
             id: email
-            placeholderText: qsTr("e.g. arlindo.pinto@mymail.com")
+            placeholderText: qsTr("e.g. john.smith@mymail.com")
             width: parent.width * (1 - createRatio)
             anchors.top: loginLabel.bottom
             anchors.topMargin: 2
@@ -287,7 +289,7 @@ Page {
 
         Label {
             id: pwdCreateLabel
-            text: qsTr("Senha")
+            text: qsTr("Password")
             width: parent.width * createRatio
             font.pointSize: txtsize
             anchors.top: emailLabel.bottom
@@ -298,7 +300,7 @@ Page {
 
         TextField {
             id: pwd
-            placeholderText: qsTr("Crie uma senha")
+            placeholderText: qsTr("Create a password")
             width: parent.width * (1 - createRatio)
             anchors.top: emailLabel.bottom
             anchors.topMargin: 2
@@ -308,7 +310,7 @@ Page {
 
         Label {
             id: pwdConfirmLabel
-            text: qsTr("Confirmar Senha")
+            text: qsTr("Confirm Password")
             width: parent.width * createRatio
             font.pointSize: txtsize
             anchors.top: pwdCreateLabel.bottom
@@ -319,7 +321,7 @@ Page {
 
         TextField {
             id: pwdConfirm
-            placeholderText: qsTr("Digite novamente a senha")
+            placeholderText: qsTr("Type in your password again")
             width: parent.width * (1 - createRatio)
             anchors.top: pwdCreateLabel.bottom
             anchors.topMargin: 2
@@ -329,7 +331,7 @@ Page {
 
         Button {
             id: createSubmit
-            text: qsTr("Criar nova conta")
+            text: qsTr("Create new account")
             spacing: 5
             anchors.right: parent.right
             anchors.rightMargin: 5
@@ -353,7 +355,7 @@ Page {
 
         Label {
             id: successMsgHeader
-            text: qsTr("Conta criada")
+            text: qsTr("Account created")
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             font.bold: true
@@ -364,7 +366,7 @@ Page {
         Label {
             id: successMsgText
             width: parent.width
-            text: qsTr("Realize o login para continuar")
+            text: qsTr("Login to continue")
             anchors.left: parent.left
             anchors.top: successMsgHeader.bottom
             anchors.leftMargin: 5
@@ -376,7 +378,7 @@ Page {
     Label {
         id: loginFailText
         visible: false
-        text: qsTr("Usuário e/ou senha incorretos!")
+        text: qsTr("Incorrect user and / or password!")
         anchors.left: loginBtn.right
         anchors.leftMargin: 10
         font.pointSize: txtsize

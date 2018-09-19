@@ -6,13 +6,13 @@ Page {
     height: 400
 
     header: Label {
-        text: qsTr("Investimentos")
+        text: qsTr("Investments")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
     }
 
     Label {
-        text: qsTr("Esta será a página gerenciadora de investimentos")
+        text: qsTr("Work in place - this will be the investment manager")
         anchors.centerIn: parent
     }
 }

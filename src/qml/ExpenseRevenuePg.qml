@@ -62,7 +62,7 @@ ExpenseRevenuePage {
             TextField {
                 id: howMuch
                 width: 0.17 * parent.width - parent.spacing - 30 //30 is to make up to the revOrExpBtn
-                placeholderText: qsTr("valor")
+                placeholderText: qsTr("value")
                 text: value
                 onEditingFinished: expRevRoot.finishEditingSomeText("value", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }
@@ -91,7 +91,7 @@ ExpenseRevenuePage {
             TextField {
                 id: catg
                 width: 0.18 * parent.width - parent.spacing
-                placeholderText: qsTr("categoria")
+                placeholderText: qsTr("category")
                 text: category
                 onEditingFinished: expRevRoot.finishEditingSomeText("category", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); ; event.accepted = false }
@@ -101,7 +101,7 @@ ExpenseRevenuePage {
             TextField {
                 id: descp
                 width: 0.51 * parent.width - parent.spacing
-                placeholderText: qsTr("descrição")
+                placeholderText: qsTr("description")
                 text: description
                 onEditingFinished: expRevRoot.finishEditingSomeText("description", index, text)
                 Keys.onTabPressed: { ExpRev.highlightOnTab(index, 0, 0); event.accepted = false }

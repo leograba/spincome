@@ -30,7 +30,7 @@ Page {
 
     header: Label {
         id: configHeader
-        text: qsTr("Configurações")
+        text: qsTr("Settings")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
 
@@ -56,7 +56,8 @@ Page {
 
     Button {
         id: gotoLogin
-        text: qsTr("Ir para login")
+        //: Go to the login tab
+        text: qsTr("Go to login")
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
     }
@@ -68,7 +69,7 @@ Page {
 
         Button {
             id: exprevTypesBtn
-            text: qsTr("Categorias para despesa/receita")
+            text: qsTr("Categories for expenses / revenues")
             anchors.left: parent.left
             anchors.leftMargin: btnMargin
             anchors.top: parent.top
@@ -80,7 +81,7 @@ Page {
 
         Button {
             id: userDataBtn
-            text: qsTr("Dados de usuário")
+            text: qsTr("User data")
             anchors.top: parent.top
             anchors.topMargin: btnMargin
             anchors.left: exprevTypesBtn.right
@@ -92,7 +93,7 @@ Page {
 
         Button {
             id: budgetTypesBtn
-            text: qsTr("Categorias para orçamento")
+            text: qsTr("Categories for budget")
             anchors.top: exprevTypesBtn.bottom
             anchors.topMargin: btnMargin
             anchors.left: parent.left
@@ -104,7 +105,8 @@ Page {
 
         Button {
             id: accountsBtn
-            text: qsTr("Gerenciamento de contas")
+            //: Like "bank account" not "user account"
+            text: qsTr("Account management")
             anchors.top: exprevTypesBtn.bottom
             anchors.topMargin: btnMargin
             anchors.left: budgetTypesBtn.right
@@ -132,14 +134,15 @@ Page {
                 id: addExpLbl
                 width: parent.width / 4
                 anchors.left: parent.left
-                text: qsTr("Despesas")
+                text: qsTr("Expenses")
                 font.bold: true
                 font.pointSize: hdSize
             }
 
             TextField {
                 id: addExpField
-                placeholderText: qsTr("Nova categoria")
+                //: New class, such as "medical" or "market"
+                placeholderText: qsTr("New category")
                 width: parent.width / 4 - addExpBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: parent.left
@@ -168,14 +171,15 @@ Page {
                 width: parent.width / 4
                 anchors.left: addExpBtn.right
                 anchors.leftMargin: listviewMargin
-                text: qsTr("Receitas")
+                text: qsTr("Revenues")
                 font.bold: true
                 font.pointSize: hdSize
             }
 
             TextField {
                 id: addRevField
-                placeholderText: qsTr("Nova categoria")
+                //: New class, such as "salary" or "stock exchange"
+                placeholderText: qsTr("New category")
                 width: parent.width / 4 - addRevBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addExpBtn.right
@@ -205,14 +209,15 @@ Page {
                 width: parent.width / 4
                 anchors.left: addRevBtn.right
                 anchors.leftMargin: listviewMargin
-                text: qsTr("Investimentos")
+                text: qsTr("Investments")
                 font.bold: true
                 font.pointSize: hdSize
             }
 
             TextField {
                 id: addInvField
-                placeholderText: qsTr("Nova categoria")
+                //: New class, such as "treasury" or "properties"
+                placeholderText: qsTr("New category")
                 width: parent.width / 4 - addInvBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addRevBtn.right
@@ -242,14 +247,15 @@ Page {
                 width: parent.width / 4
                 anchors.left: addInvBtn.right
                 anchors.leftMargin: listviewMargin
-                text: qsTr("Empréstimos")
+                text: qsTr("Loans")
                 font.bold: true
                 font.pointSize: hdSize
             }
 
             TextField {
                 id: addLoanField
-                placeholderText: qsTr("Nova categoria")
+                //: New class, such as "family" or "friends"
+                placeholderText: qsTr("New category")
                 width: parent.width / 4 - addLoanBtn.width - iconOffset * 1.2
                 font.pointSize: addSize
                 anchors.left: addInvBtn.right
@@ -372,7 +378,7 @@ Page {
             }
             PropertyChanges {
                 target: configHeader
-                text: qsTr("Categorias para despesa/receita")
+                text: qsTr("Categories for expense / revenue")
             }
         },
         State {
@@ -387,7 +393,8 @@ Page {
             }
             PropertyChanges {
                 target: configHeader
-                text: qsTr("Configurações de usuário")
+                //: Things like preferences, colors, language, etc
+                text: qsTr("User configuration")
             }
         },
         State {
@@ -402,7 +409,7 @@ Page {
             }
             PropertyChanges {
                 target: configHeader
-                text: qsTr("Categorias para orçamento")
+                text: qsTr("Categories for budget")
             }
         },
         State {
@@ -417,7 +424,7 @@ Page {
             }
             PropertyChanges {
                 target: configHeader
-                text: qsTr("Configurações de contas")
+                text: qsTr("Account configuration")
             }
         }
     ]
