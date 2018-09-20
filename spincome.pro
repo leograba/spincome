@@ -14,6 +14,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += src/main.cpp
 
+# Need to add QML and JS sources for the lupdate tool
+# http://doc.qt.io/qt-5/qtquick-internationalization.html
+
+lupdate_only{
+SOURCES = src/qml/*.qml \
+          src/js/*.js
+}
+
+TRANSLATIONS = spincome_pt_br.ts
+
 RESOURCES += qml.qrc
 
 OTHER_FILES +=
