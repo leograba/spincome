@@ -14,6 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += src/main.cpp
 
+# Translation related configuration
+
 # Need to add QML and JS sources for the lupdate tool
 # http://doc.qt.io/qt-5/qtquick-internationalization.html
 
@@ -22,9 +24,17 @@ SOURCES = src/qml/*.qml \
           src/js/*.js
 }
 
-TRANSLATIONS = spincome_pt_br.ts
+defineReplace(appendAll){
+    for(a, $$1):res += $$PWD/translations/spincome_$${a}.ts
+    return($$res)
+}
 
-RESOURCES += qml.qrc
+LANGUAGES = pt_BR
+
+TRANSLATIONS = $$appendAll(LANGUAGES)
+
+RESOURCES += qml.qrc \
+    translation.qrc
 
 OTHER_FILES +=
 

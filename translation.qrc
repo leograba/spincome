@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>translations/spincome_pt_BR.qm</file>
+    </qresource>
+</RCC>
