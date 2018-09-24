@@ -1,21 +1,23 @@
-# My own finance manager
+# Spincome finance manager
 
-This is a personal project that aims to be fun and make something I would do for
-myself using an Excel or Calc sheet.
+The aim of this project is to be simple yet complete.
 
-## ToDo list
+The initial idea was (and still is) to have fun by writing a program for
+something that I would do for myself using an Excel or Calc sheet.
 
-- Data input validation
-- Understand how application icon works --> low prio
-- Use the right console.something() instead of always console.log() and add file
-and function name
-- Currently uses the last rowid to position current selection, if I remember
-right. This is a bad idea if entries are removed from the DB.
-- Add the delete feature to the exp/rev page.
-- Standardize error handling - throw, console.error(), console.trace(), etc
-- Check Javascript code-behind vs shared library --> this works well
-- Create a dashboard with the following information:
-* How much do I have until the selected date
-* How much do I have invested
-* Yield rate for the previous month
-* Budget vs expense
+## Description
+
+The application consists of 7 tabs:
+
+- Dashboard: where you login/logoff and see consolidated information.
+- Expenses and revenues: where you manage your money flow. It's the money you
+get (incomes), the money you spend (expenses), the money you lend to other
+people (loans) and the money you transfer to investments (investments).
+- Budget: manage predictions of your money flow in the next months.
+- Investments: take care of your investments in a simple, straightforward way.
+- Statistics: if you are that type of person, you have easy access many 
+statistics.
+- Strategy: investment allocation plan, which is similar to the idea of the
+budget.
+- Settings: manage everything here, from your account settings to customizing
+categories.
